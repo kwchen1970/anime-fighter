@@ -5,6 +5,7 @@ export const damp = (value:number,target:number,speed:number,dt:number) => value
 const clampX = (x:number) => Math.max(110,Math.min(WORLD-110,x));
 
 function velocity(f:Fighter,now:number) {
+  if(f.knockback&&f.stun>now)return f.knockback;
   return f.action==='run' && f.until<=now && f.stun<=now && now-f.input.at<400 ? Math.sign(f.input.move)*SPEED : 0;
 }
 

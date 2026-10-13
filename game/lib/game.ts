@@ -2,8 +2,8 @@ import {ARENA_LENGTH,groundHeight} from './terrain.ts';
 export const WORLD = ARENA_LENGTH;
 export const SPEED = 440;
 export type Input = { move: number; punch: number; kick: number; at: number };
-export type Fighter = { speed?:number; maxHp?:number; x: number; face: number; hp: number; action: string; started: number; until: number; stun: number; flash: number; hit: boolean; punch: number; kick: number; input: Input };
-export type Match = { stage?:number; players: Fighter[]; time: number; start: number; end: number; winner: number | null; events: { x: number; time: number; kick: boolean }[] };
+export type Fighter = { speed?:number; maxHp?:number; knockback?:number; x: number; face: number; hp: number; action: string; started: number; until: number; stun: number; flash: number; hit: boolean; punch: number; kick: number; input: Input };
+export type Match = { stage?:number; players: Fighter[]; time: number; start: number; end: number; winner: number | null; events: { x: number; time: number; kick: boolean; victimX?:number; direction?:number }[] };
 export function newMatch(now: number, countdown = 3000, stage = 0): Match {
   return { stage, players: [1380, 1740].map((x, i) => ({ x, face: i ? -1 : 1, hp: 100, action: 'fight', started: now, until: 0, stun: 0, flash: 0, hit: false, punch: 0, kick: 0, input: { move: 0, punch: 0, kick: 0, at: now } })), time: now, start: now + countdown, end: now + countdown + 90000, winner: null, events: [] };
 }
@@ -19,6 +19,7 @@ function tick(g: Match, now: number, dt: number) {
   const p = g.players;
   for (let i=0;i<2;i++) {
     const f=p[i], other=p[1-i];
+    if(f.knockback){const decay=Math.exp(-10*dt);f.x=Math.max(110,Math.min(WORLD-110,f.x+f.knockback*(1-decay)/10));f.knockback*=decay;if(Math.abs(f.knockback)<2)f.knockback=0;}
     if (f.until > now || f.stun > now) continue;
     f.face = other.x >= f.x ? 1 : -1;
     const input = now - f.input.at < 400 ? f.input : {move:0,punch:f.punch,kick:f.kick};
@@ -44,11 +45,11 @@ function tick(g: Match, now: number, dt: number) {
     if((o.x-f.x)*f.face>0 && Math.abs(o.x-f.x)<(kick?235:155) && Math.abs(groundHeight(o.x)-groundHeight(f.x))<70) { f.hit=true; hits.push({i,kick}); }
   }
   for(const {i,kick} of hits) {
-    const f=p[i],o=p[1-i];o.hp=Math.max(0,o.hp-(kick?17:10));o.stun=now+(kick?300:210);o.flash=now+180;
-    o.x=Math.max(110,Math.min(WORLD-110,o.x+f.face*(kick?95:48)));o.until=0;o.action='hurt';o.started=now;
+    const f=p[i],o=p[1-i];o.hp=Math.max(0,o.hp-(kick?17:10));o.stun=now+(kick?360:300);o.flash=now+300;
+    o.knockback=f.face*(kick?950:480);o.until=0;o.action='hurt';o.started=now;
     // Consume inputs during hit stun so a queued attack cannot fire unexpectedly.
     o.punch=o.input.punch;o.kick=o.input.kick;
-    g.events.push({x:(f.x+o.x)/2,time:now,kick});
+    g.events.push({x:(f.x+o.x)/2,time:now,kick,victimX:o.x,direction:f.face});
   }
   if(p.some(f=>f.hp<=0)||now>=g.end)g.winner=p[0].hp===p[1].hp?2:p[0].hp>p[1].hp?0:1;
 }
