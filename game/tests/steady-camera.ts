@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {steadyCameraTarget} from '../lib/steady-camera.ts';
+import {steadyCameraTarget,containFighters} from '../lib/steady-camera.ts';
 const camera={x:1500,width:1900,elevation:0};
 const ground=[{x:1400,y:0,floor:0},{x:1600,y:0,floor:0}];
 const base=steadyCameraTarget(camera,ground),jump=steadyCameraTarget(camera,[{...ground[0],y:490,airborne:true},ground[1]]);
@@ -10,3 +10,5 @@ console.log('Steady camera: fixed normal jump zoom, horizontal dead zone, limite
 const falling=steadyCameraTarget({x:1500,width:1700,elevation:1400},[{x:1400,y:900,vy:-1500,airborne:true,floor:0},{x:1600,y:920,vy:-1400,airborne:true,floor:0}]);
 assert.equal(falling.falling,true,'detect a fast drop');assert.ok(falling.elevation<1100,'do not hold high camera during a fall');
 const landed=steadyCameraTarget({x:1500,width:1700,elevation:900},ground);assert.equal(landed.falling,true,'recover quickly if landing is below the camera');
+
+for(const fallingHeight of [1100,800,400,0]){const pose={x:1500,width:1500,elevation:1100};const players=[{x:1400,y:1200},{x:1600,y:fallingHeight}];containFighters(pose,players);const scale=1200/pose.width;for(const f of players){const feet=500+(pose.elevation-f.y)*scale,head=feet-360*scale;assert.ok(feet<=605.01&&head>=44.99,'both fighters remain inside view during a fall');}}

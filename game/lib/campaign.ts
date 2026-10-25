@@ -22,6 +22,7 @@ export function updateBot(g:Match,now:number,clock:BotClock) {
  if(now<g.start||g.winner!==null){bot.input.move=0;return;}
  const by=bot.y??0,ty=you.y??0,distance=Math.abs(you.x-bot.x),direction=Math.sign(you.x-bot.x);
  // Air steering has its own short cadence, so the bot can brake above a ledge.
+ if(bot.jumpLaunchAt&&bot.jumpLaunchAt>now)return;
  if(bot.airborne){
   const target=clock.waypoint?.x??you.x;
   bot.input.move=Math.abs(target-bot.x)>20?Math.sign(target-bot.x):0;return;

@@ -53,3 +53,20 @@ Render at the artwork's cropped aspect ratio instead of stretching to a constant
 
 ## Slim platform redraw
 Built-in imagegen: one extra-slim long horizontal flat lavender ledge with cobalt ceramic rim, gold trim, tiny pink sakura accents, shallow fascia and no deep hanging ornament; transparent background. Separate motifs: café cat teacup/paws, arcade stars/hearts, shrine fox masks/rope/bell. Files: `cafe-platform-slim.png`, `arcade-platform-slim.png`, `shrine-platform-slim.png`. Displayed at natural cropped aspect ratios.
+
+## Home screen redesign
+Built-in imagegen. `public/assets/home/relax-attack-logo.png`: transparent two-line RELAX & ATTACK custom anime lettering, indigo outline, ivory/lavender faces, restrained pink sakura, gold accents and boba motif. `sakura-title-screen.png`: quiet warm spring Tokyo shopping promenade, soft peach sunlight, lavender paving, cherry trees, cat café at right and open center-left for the UI.
+
+## Custom hit impact (built-in imagegen, October 25)
+Asset: public/assets/effects/anime-impact.png
+Prompt: Transparent single compact asymmetrical anime comic pixel impact burst; ivory hot core, gold jagged chunky spikes, coral pink and lavender shards, dark indigo pixel outline. Crisp stair-step edges, limited palette, centered isolated sprite, no text, characters, background, circular ring of lines, blur, or haze. Brief punch-contact effect.
+
+## Softer sakura hit effect (built-in imagegen, October 25)
+Asset: public/assets/effects/sakura-impact.png
+Prompt: Single transparent anime hit contact VFX for a cherry blossom Tokyo fighting game. Delicate hand-painted tapered crescent brush strokes, small ivory contact glint, few petal-like shards; restrained pale lavender and dusty sakura pink. Airy translucent watercolor/cel effect, fine fluid edges, ample negative space. No pixel art, blocky edges, dark outlines, yellow/orange, words, characters, background, or opaque disk.
+Rendered at a maximum 48% opacity with a quick fade.
+
+## Sharper sakura impact (built-in imagegen, October 25)
+Asset: public/assets/effects/sakura-impact-sharp.png
+Prompt: Single transparent anime punch contact sprite, compact asymmetrical starburst of sharp tapered speed slashes, ivory center, lavender and sakura pink jagged flares and detached shards. Strong readable impact in elegant cel animation style. Moderately opaque strokes, translucent outer tips, smooth edges. No pixel art, swirling petals, soft wisps, large explosion, yellow/orange, background, text, characters, or uniform radial line circle.
+Rendered at maximum 80% opacity, punch width170 and kick width210 world units, quick pop and fade.

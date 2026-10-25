@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {newMatch} from '../lib/game.ts';
+import {newMatch,SPEED} from '../lib/game.ts';
 import {damp,sampleOpponent,skylineTiles} from '../lib/view.ts';
 
 // Crossing the old 95-pixel wrap boundary must move the same buildings a
@@ -21,6 +21,6 @@ const history=[{time:1000,match:a},{time:1100,match:b}];
 assert.equal(sampleOpponent(history,1,1150)?.x,a.players[1].x+22,'render between packets instead of snapping');
 assert.equal(sampleOpponent(history,1,900)?.x,a.players[1].x,'no backward extrapolation before the first packet');
 b.players[1].action='run';b.players[1].input.move=1;b.players[1].input.at=1100;
-const near=sampleOpponent(history,1,1250)!;assert.equal(near.x,b.players[1].x+22);
+const near=sampleOpponent(history,1,1250)!;assert.equal(near.x,b.players[1].x+SPEED*.05);
 const far=sampleOpponent(history,1,1700)!;assert.equal(far.x,b.players[1].x,'stale input does not keep moving');
 console.log('Smoothness checks passed: continuous skyline, frame-rate-independent camera, snapshot interpolation and stale input.');

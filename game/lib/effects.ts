@@ -17,3 +17,11 @@ export function drawHitDust(ctx:CanvasRenderingContext2D,event:{time:number;vict
  }
  ctx.restore();
 }
+// A short snappy illustrated hit burst: pop, expand, then disappear.
+export function drawImpact(ctx:CanvasRenderingContext2D,image:HTMLImageElement|undefined,event:{time:number;kick:boolean;direction?:number},now:number,x:number,y:number,scale:number){
+ const age=(now-event.time)/260;if(age<0||age>=1||!image)return;
+ const size=(event.kick?210:170)*scale*(.65+.5*Math.min(1,age*5));
+ ctx.save();ctx.translate(x,y);ctx.scale(event.direction===-1?-1:1,1);ctx.rotate(event.kick?-.18:.12);
+ ctx.globalAlpha=.8*(age<.25?1:Math.pow((1-age)/.75,1.4));ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+ const height=size*image.naturalHeight/image.naturalWidth;ctx.drawImage(image,-size/2,-height/2,size,height);ctx.restore();
+}

@@ -1,8 +1,8 @@
 // Stable coordinates are shared by the browser and room server: no random spawns
 // or growing list to transmit. Only nearby rows are generated for each query.
 export type Platform={id:string;x:number;width:number;y:number};
-export const GRAVITY=2000;
-export const JUMP_SPEED=1400;
+export const GRAVITY=3300;
+export const JUMP_SPEED=1800;
 export const JUMP_HEIGHT=JUMP_SPEED*JUMP_SPEED/(2*GRAVITY);
 export const FIRST_PLATFORM_HEIGHT=200;
 export const ROW_HEIGHT=340;
