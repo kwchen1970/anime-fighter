@@ -38,3 +38,8 @@ body{background:#f0f3fc;color:#233044}h1 em{color:#3f72b0}
 @media(max-width:650px){.hud{top:8px;left:9px;right:9px;gap:8px;padding:0}.fighter-hud{padding:4px 6px}.fighter-hud strong{font-size:11px;letter-spacing:1px}.fighter-hud span:not(.health span){font-size:5px}.health{height:4px}.fighter-hud small{font-size:5px;margin-top:2px}.timer{min-width:27px;padding:4px}.timer strong{font-size:18px}.timer span{font-size:4px;letter-spacing:.7px}.stage-stop{padding:4px}.stage-stop div{display:block}.stage-stop strong{font-size:7px}.stage-stop span{font-size:5px;margin-bottom:2px}.arena-heading h2{font-size:23px}}
 
 .hero-art{background:linear-gradient(180deg,#081b3908,#06122c33),url('/assets/stages/sakura-cat-cafe.png') center/cover}
+
+.touch-controls>div{flex-wrap:wrap}.control-strip{flex-wrap:wrap}.jump-btn{background:#d9eef2}.sweep-btn{background:#e9ddf4}
+
+.game-shell>.hud{position:relative;inset:auto;display:flex;align-items:center;gap:18px;margin:14px 0;padding:12px 16px;border:1px solid #cfc9dd;border-radius:9px;background:#f9f7fc;color:#433650;z-index:auto}.game-shell>.hud .fighter-hud{background:transparent;border:0;padding:0;box-shadow:none}.game-shell>.hud .timer{background:#e7e0f1;color:#49385c;box-shadow:none;border:0}.game-shell>.hud .health{background:#ded8e7}.game-shell>.hud .fighter-hud small,.game-shell>.hud .fighter-hud span{color:#71627e}@media(max-width:600px){.game-shell>.hud{gap:10px;padding:10px}.game-shell>.hud .fighter-hud strong{font-size:17px}}
+@media(max-width:650px){header{gap:10px}.camera-mode{font-size:9px;padding:8px;white-space:nowrap}.brand{font-size:12px;letter-spacing:.5px}.edition{display:none}}

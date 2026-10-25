@@ -14,9 +14,8 @@ export const DISTRICTS=[
  {name:'Shrine Garden',image:'/assets/stages/sakura-shrine.png'},
 ] as const;
 export function districtBlend(x:number,stage=0){
- const part=Math.max(0,Math.min(2,x/2400));
- const section=Math.min(2,Math.floor(part));
- const fraction=section<2?Math.max(0,Math.min(1,(part-section-.7333333333)/.2666666667)):0;
+ const part=((x/2400)%3+3)%3,section=Math.floor(part);
+ const fraction=Math.max(0,Math.min(1,(part-section-.7333333333)/.2666666667));
  const blend=fraction*fraction*(3-2*fraction);
- return {first:(section+stage)%3,second:(Math.min(2,section+1)+stage)%3,blend};
+ return {first:(section+stage)%3,second:(section+1+stage)%3,blend};
 }

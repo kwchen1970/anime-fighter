@@ -2,11 +2,11 @@ import { SPEED, WORLD, type Fighter, type Match } from './game.ts';
 
 export type Snapshot = { time: number; match: Match };
 export const damp = (value:number,target:number,speed:number,dt:number) => value+(target-value)*(1-Math.exp(-speed*dt));
-const clampX = (x:number) => Math.max(110,Math.min(WORLD-110,x));
+const clampX = (x:number) => x;
 
 function velocity(f:Fighter,now:number) {
   if(f.knockback&&f.stun>now)return f.knockback;
-  return f.action==='run' && f.until<=now && f.stun<=now && now-f.input.at<400 ? Math.sign(f.input.move)*SPEED : 0;
+  return (f.action==='run'&&f.until<=now||f.action==='punch'&&f.until>now)&&f.stun<=now&&now-f.input.at<400?Math.sign(f.input.move)*SPEED*(f.action==='punch'?.8:1):0;
 }
 
 // Opponents render a little behind the server, between snapshots, rather than
@@ -20,7 +20,7 @@ export function sampleOpponent(history:Snapshot[],slot:number,now:number):Fighte
     if(after.time>=target) {
       const ratio=Math.max(0,Math.min(1,(target-before.time)/Math.max(1,after.time-before.time)));
       const f=before.match.players[slot],next=after.match.players[slot];
-      return {...f,x:clampX(f.x+(next.x-f.x)*ratio)};
+      return {...f,x:clampX(f.x+(next.x-f.x)*ratio),y:(f.y??0)+((next.y??0)-(f.y??0))*ratio};
     }
     before=after;
   }

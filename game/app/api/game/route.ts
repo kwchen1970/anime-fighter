@@ -6,7 +6,7 @@ function publicRoom(r:Room,code:string,slot:number,now:number) { return { code, 
 export async function POST(req: Request) {
   try {
     if(req.headers.get('origin') && req.headers.get('origin') !== new URL(req.url).origin) return json({error:'Please join from the game page.'},403);
-    const b=await req.json() as {op:string;code?:string;token?:string;input?:{move:number;punch:number;kick:number}}; const db=env.DB as D1Database; let now=Date.now();
+    const b=await req.json() as {op:string;code?:string;token?:string;input?:{move:number;punch:number;kick:number;jump?:number;sweep?:number}}; const db=env.DB as D1Database; let now=Date.now();
     if(b.op==='create') {
       const token=crypto.randomUUID();
       for(let retry=0;retry<5;retry++) {
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       if(bothPresent)advance(r.match,now);
       else { const elapsed=now-r.match.time;r.match.start+=elapsed;r.match.end+=elapsed;r.match.time=now;for(const f of r.match.players){f.input.move=0;f.until=0;f.stun=0;f.action='fight';} }
       r.seen[slot]=now;
-      if(b.op==='tick'&&b.input){const f=r.match.players[slot];f.input={move:Math.max(-1,Math.min(1,Number(b.input.move)||0)),punch:Math.max(f.input.punch,Math.min(f.input.punch+1,Math.floor(Number(b.input.punch)||0))),kick:Math.max(f.input.kick,Math.min(f.input.kick+1,Math.floor(Number(b.input.kick)||0))),at:now};}
+      if(b.op==='tick'&&b.input){const f=r.match.players[slot];f.input={move:Math.max(-1,Math.min(1,Number(b.input.move)||0)),punch:Math.max(f.input.punch,Math.min(f.input.punch+1,Math.floor(Number(b.input.punch)||0))),kick:Math.max(f.input.kick,Math.min(f.input.kick+1,Math.floor(Number(b.input.kick)||0))),jump:Math.max(f.input.jump??0,Math.min((f.input.jump??0)+1,Math.floor(Number(b.input.jump)||0))),sweep:Math.max(f.input.sweep??0,Math.min((f.input.sweep??0)+1,Math.floor(Number(b.input.sweep)||0))),at:now};}
       if(b.op==='rematch'&&r.match.winner!==null) {r.ready[slot]=true;if(r.ready.every(Boolean)){r.match=newMatch(now);r.ready=[false,false];}}
       const result=await db.prepare('UPDATE rooms SET data=?,version=version+1,expires=? WHERE code=? AND version=?').bind(JSON.stringify(r),now+86400000,code,row.version).run();
       if(result.meta.changes)return json({...publicRoom(r,code,slot,now),...(b.op==='join'?{token}: {})});

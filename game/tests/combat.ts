@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {newMatch,advance,WORLD} from '../lib/game.ts';
 const run=(g:ReturnType<typeof newMatch>,until:number)=>{for(let t=g.time+16;t<=until;t+=16){for(const f of g.players)f.input.at=t;advance(g,t);}return g;};
 {
- const g=newMatch(0,0);g.players[0].input.move=-1;run(g,6000);assert.equal(g.players[0].x,110);g.players[1].input.move=1;run(g,22000);assert.equal(g.players[1].x,WORLD-110);
+ const g=newMatch(0,0);g.players[0].input.move=-1;run(g,6000);assert.ok(g.players[0].x<0,'world extends left');g.players[1].input.move=1;run(g,22000);assert.ok(g.players[1].x>WORLD,'world extends right');
 }
 {
  const g=newMatch(0,0);g.players[1].x=g.players[0].x+130;g.players[0].input.punch=1;run(g,700);assert.equal(g.players[1].hp,90);run(g,1100);assert.equal(g.players[1].hp,90,'one strike must only hit once');

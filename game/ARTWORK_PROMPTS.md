@@ -29,3 +29,27 @@ Built-in image generation with the same cool-blue side-view Tokyo palette and cl
 - **Mall shopper:** Four-frame transparent sprite sheet of a relaxed adult shopper holding bubble tea, lavender hoodie, dark trousers and sneakers, gently walking in place. Frames are extracted without resizing and rendered small behind the fighting lane.
 
 Game assets: `anime-mall.png`, `tokyo-cat-street.png`, and `mall-walker-0.png` through `mall-walker-3.png` in `public/assets/stages/`. Prior background files remain for comparison.
+
+## Endless platform variants
+Generated with built-in imagegen; transparent sprites saved as `public/assets/stages/arcade-platform.png` and `shrine-platform.png`.
+- Arcade: single long flat side-view anime terrace, lavender/blue metal, cyan trim, pink cat paw emblem, restrained sakura details, transparent background.
+- Shrine: single long flat side-view anime terrace, lavender stone top, vermilion beam, navy tile trim, gold sakura medallion, transparent background.
+
+## Four-tier sakura revision
+Built-in imagegen with the original blue/lavender sakura platform as reference.
+- `sakura-platform-moon.png`: same flat lavender stone, blue tiles, gold and sakura palette; paired flower medallions and crescent ornament. Transparent background.
+- `sakura-platform-crest.png`: same art family, diamond sakura crest and gold scrolls. Transparent background.
+- `anime-sky.png`: sunny cornflower blue anime sky, painterly luminous cumulus clouds with lavender shading and a calm center.
+
+## Drifting cloud sprite
+Built-in imagegen: isolated wide fluffy cumulus cloud bank, transparent background, hand-painted Japanese anime style, white sunlit tops, icy blue/lavender shadows, organic wispy edges. Saved as `public/assets/stages/anime-cloud.png`; used over the earlier blue/lavender altitude transition.
+
+## Environment platforms with preserved proportions
+Built-in imagegen, original sakura platform as style reference. All use flat lavender stone, cobalt ceramic trim, gold ornament and pink blossoms on transparent backgrounds.
+- `cafe-platform-v3.png`: cat in a teacup relief, paw tile insets, café window panels.
+- `arcade-platform-v3.png`: gold star prize crest, hearts and gems, carved arches.
+- `shrine-platform-v3.png`: indigo shrine terrace, paired fox masks, bell and sacred rope motif.
+Render at the artwork's cropped aspect ratio instead of stretching to a constant height.
+
+## Slim platform redraw
+Built-in imagegen: one extra-slim long horizontal flat lavender ledge with cobalt ceramic rim, gold trim, tiny pink sakura accents, shallow fascia and no deep hanging ornament; transparent background. Separate motifs: café cat teacup/paws, arcade stars/hearts, shrine fox masks/rope/bell. Files: `cafe-platform-slim.png`, `arcade-platform-slim.png`, `shrine-platform-slim.png`. Displayed at natural cropped aspect ratios.
