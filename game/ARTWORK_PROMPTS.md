@@ -70,3 +70,7 @@ Rendered at a maximum 48% opacity with a quick fade.
 Asset: public/assets/effects/sakura-impact-sharp.png
 Prompt: Single transparent anime punch contact sprite, compact asymmetrical starburst of sharp tapered speed slashes, ivory center, lavender and sakura pink jagged flares and detached shards. Strong readable impact in elegant cel animation style. Moderately opaque strokes, translucent outer tips, smooth edges. No pixel art, swirling petals, soft wisps, large explosion, yellow/orange, background, text, characters, or uniform radial line circle.
 Rendered at maximum 80% opacity, punch width170 and kick width210 world units, quick pop and fade.
+
+## Flying health cat (built-in imagegen, October 26)
+Asset: public/assets/effects/flying-health-cat.png
+Prompt: Single cute flying anime kitten sprite on transparency. Fluffy cream-white kitten, lavender ear tips, pink cheeks, happy teal eyes, tiny feathered wings spread, tucked paws, curled tail, sakura flower by ear. Gentle floating pose, polished hand-drawn cel shading for pastel Tokyo game, fine indigo outlines. Full silhouette centered with margin; no words, floor, scenery, pixel art or outside sparkles.

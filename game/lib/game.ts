@@ -1,11 +1,12 @@
+import {updateHealthCat,type HealthCat} from './health-cat.ts';
 import {JUMP_PREP_MS} from './jump-timing.ts';
 import {platformsIn,GRAVITY,JUMP_SPEED} from './platforms.ts';
 import {ARENA_LENGTH,groundHeight} from './terrain.ts';
 export const WORLD = ARENA_LENGTH;
 export const SPEED = 560;
 export type Input = { move: number; punch: number; kick: number; at: number; jump?:number; sweep?:number };
-export type Fighter = { speed?:number; maxHp?:number; knockback?:number; y?:number; vy?:number; jump?:number; sweep?:number; airborne?:boolean; jumpStarted?:number; jumpLaunchAt?:number; punchMove?:number; x: number; face: number; hp: number; action: string; started: number; until: number; stun: number; flash: number; hit: boolean; punch: number; kick: number; input: Input };
-export type Match = { stage?:number; players: Fighter[]; time: number; start: number; end: number; winner: number | null; events: { x: number; time: number; kick: boolean; victimX?:number; direction?:number; y?:number; attacker?:number }[] };
+export type Fighter = { healFlash?:number; speed?:number; maxHp?:number; knockback?:number; y?:number; vy?:number; jump?:number; sweep?:number; airborne?:boolean; jumpStarted?:number; jumpLaunchAt?:number; punchMove?:number; x: number; face: number; hp: number; action: string; started: number; until: number; stun: number; flash: number; hit: boolean; punch: number; kick: number; input: Input };
+export type Match = { botSlot?:number; healthCat?:HealthCat;catNextAt?:number; stage?:number; players: Fighter[]; time: number; start: number; end: number; winner: number | null; events: { x: number; time: number; kick: boolean; victimX?:number; direction?:number; y?:number; attacker?:number }[] };
 export function newMatch(now: number, countdown = 3000, stage = 0): Match {
   return { stage, players: [1380, 1740].map((x, i) => ({ x, face: i ? -1 : 1, hp: 100, action: 'fight', started: now, until: 0, stun: 0, flash: 0, hit: false, punch: 0, kick: 0, input: { move: 0, punch: 0, kick: 0, at: now } })), time: now, start: now + countdown, end: now + countdown + 90000, winner: null, events: [] };
 }
@@ -61,5 +62,6 @@ function tick(g: Match, now: number, dt: number) {
     o.punch=o.input.punch;o.kick=o.input.kick;o.sweep=o.input.sweep??0;o.jump=o.input.jump??0;
     g.events.push({x:(f.x+o.x)/2,time:now,kick,victimX:o.x,direction:f.face,y:o.y??0,attacker:i});
   }
+  updateHealthCat(g,now);
   if(p.some(f=>f.hp<=0)||now>=g.end)g.winner=p[0].hp===p[1].hp?2:p[0].hp>p[1].hp?0:1;
 }

@@ -1,3 +1,4 @@
+import {catPosition} from './health-cat.ts';
 import {newMatch,SPEED,type Match} from './game.ts';
 import {platformsIn,JUMP_HEIGHT,landingTime,type Platform} from './platforms.ts';
 export const STAGES=[
@@ -8,18 +9,29 @@ export const STAGES=[
 export function campaignMatch(now:number,level:number):Match {
  const index=Math.max(0,Math.min(STAGES.length-1,level));
  const g=newMatch(now,3000,index),profile=STAGES[index];
- g.players[1].hp=profile.health;g.players[1].maxHp=profile.health;g.players[1].speed=profile.speed;
+ g.botSlot=1;g.players[1].hp=profile.health;g.players[1].maxHp=profile.health;g.players[1].speed=profile.speed;
  return g;
 }
 export function nextLevel(g:Match):number|null {
  return g.winner===0&&(g.stage??0)<STAGES.length-1?(g.stage??0)+1:null;
 }
-export type BotClock={think:number;attack:number;count:number;lastDodge?:number;evadeUntil?:number;counterUntil?:number;waypoint?:{x:number;y:number;at:number}};
+export type BotClock={think:number;attack:number;count:number;seekingCat?:boolean;lastDodge?:number;evadeUntil?:number;counterUntil?:number;waypoint?:{x:number;y:number;at:number}};
 const inside=(x:number,p:Platform)=>x>=p.x&&x<=p.x+p.width;
+export function shouldSeekHealthCat(g:Match,now:number){
+ const bot=g.players[1],opponent=g.players[0];if(!g.healthCat||bot.hp/(bot.maxHp??100)>.25)return false;
+ const cat=catPosition(g.healthCat,now),horizontal=Math.abs(cat.x-bot.x),vertical=Math.abs(cat.y-150-(bot.y??0));
+ const inCombat=Math.abs(opponent.x-bot.x)<280&&Math.abs((opponent.y??0)-(bot.y??0))<140;
+ return !inCombat&&horizontal<600&&vertical<350;
+}
 export function updateBot(g:Match,now:number,clock:BotClock) {
- const bot=g.players[1],you=g.players[0],profile=STAGES[g.stage??0];
+ const bot=g.players[1],opponent=g.players[0],profile=STAGES[g.stage??0];
  bot.input.at=now;
  if(now<g.start||g.winner!==null){bot.input.move=0;return;}
+ const cat=g.healthCat?catPosition(g.healthCat,now):null;
+ const seekingCat=shouldSeekHealthCat(g,now);
+ if(clock.seekingCat!==seekingCat){clock.waypoint=undefined;clock.seekingCat=seekingCat;}
+ if(cat&&g.healthCat){cat.x+=(g.healthCat.vx??0)*.16;}
+ const you=seekingCat&&cat?{...opponent,x:cat.x,y:Math.max(0,cat.y-150)}:opponent;
  const by=bot.y??0,ty=you.y??0,distance=Math.abs(you.x-bot.x),direction=Math.sign(you.x-bot.x);
  // Air steering has its own short cadence, so the bot can brake above a ledge.
  if(bot.jumpLaunchAt&&bot.jumpLaunchAt>now)return;
@@ -30,9 +42,9 @@ export function updateBot(g:Match,now:number,clock:BotClock) {
  if(bot.stun>now||bot.until>now)return;
  if(now-clock.think<Math.min(180,profile.reaction))return;
  clock.think=now;clock.waypoint=undefined;
- if((clock.evadeUntil??0)>now){bot.input.move=-direction;return;}
+ if(!seekingCat&&(clock.evadeUntil??0)>now){bot.input.move=-direction;return;}
  const incoming=['punch','kick'].includes(you.action)&&you.until>now&&now-you.started<230;
- if(incoming&&Math.abs(ty-by)<90&&distance<(you.action==='kick'?245:180)&&now-(clock.lastDodge??-2000)>1500){clock.lastDodge=now;clock.evadeUntil=now+(g.stage===0?140:220);clock.counterUntil=now+1000;bot.input.move=-direction;return;}
+ if(!seekingCat&&incoming&&Math.abs(ty-by)<90&&distance<(you.action==='kick'?245:180)&&now-(clock.lastDodge??-2000)>1500){clock.lastDodge=now;clock.evadeUntil=now+(g.stage===0?140:220);clock.counterUntil=now+1000;bot.input.move=-direction;return;}
 
  if(ty>by+80){
   // Choose a reachable step toward the target, not a jump straight at its feet.
@@ -52,6 +64,7 @@ export function updateBot(g:Match,now:number,clock:BotClock) {
   const support=platformsIn(bot.x,bot.x,by-1,by+1).find(p=>inside(bot.x,p));
   if(support){const left=support.x-50,right=support.x+support.width+50;bot.input.move=Math.sign((Math.abs(you.x-left)<Math.abs(you.x-right)?left:right)-bot.x);return;}
  }
+ if(seekingCat&&distance<100&&Math.abs(ty-by)<100){bot.input.move=distance>25?direction:0;return;}
  // Traverse holes between ledges and chase across neighboring platforms.
  if(by>0&&distance>220){
   const ahead=bot.x+direction*100;
@@ -59,10 +72,10 @@ export function updateBot(g:Match,now:number,clock:BotClock) {
   if(!floorAhead){const next=platformsIn(bot.x-600,bot.x+600,by-170,by+300).filter(p=>direction*(p.x+p.width/2-bot.x)>100).sort((a,b)=>Math.abs(a.x+a.width/2-you.x)-Math.abs(b.x+b.width/2-you.x))[0];
    if(next){const target=Math.max(next.x+65,Math.min(next.x+next.width-65,bot.x+direction*300));clock.waypoint={x:target,y:next.y,at:now};bot.input.jump=(bot.input.jump??0)+1;}}
  }
- if(you.action==='sweep'&&you.until>now&&distance<260){bot.input.jump=(bot.input.jump??0)+1;clock.waypoint={x:you.x+direction*100,y:ty,at:now};bot.input.move=direction;return;}
+ if(!seekingCat&&you.action==='sweep'&&you.until>now&&distance<260){bot.input.jump=(bot.input.jump??0)+1;clock.waypoint={x:you.x+direction*100,y:ty,at:now};bot.input.move=direction;return;}
  if((g.stage??0)===2&&you.until>now&&you.action==='kick'&&distance<235&&clock.count%3===0)bot.input.move=-direction;
- else bot.input.move=distance>175?direction:distance<100?-direction:0;
- if(now-clock.attack>=((clock.counterUntil??0)>now?Math.min(750,profile.cooldown):profile.cooldown)&&distance<235&&Math.abs(ty-by)<100){
+ else bot.input.move=seekingCat?(distance>25?direction:0):distance>175?direction:distance<100?-direction:0;
+ if(!seekingCat&&now-clock.attack>=((clock.counterUntil??0)>now?Math.min(750,profile.cooldown):profile.cooldown)&&distance<235&&Math.abs(ty-by)<100){
   clock.attack=now;clock.count++;
   if(clock.count%3===0)bot.input.sweep=(bot.input.sweep??0)+1;
   else if(distance>145||clock.count%2===0)bot.input.kick++;

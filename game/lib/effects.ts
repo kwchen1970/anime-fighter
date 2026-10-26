@@ -25,3 +25,6 @@ export function drawImpact(ctx:CanvasRenderingContext2D,image:HTMLImageElement|u
  ctx.globalAlpha=.8*(age<.25?1:Math.pow((1-age)/.75,1.4));ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
  const height=size*image.naturalHeight/image.naturalWidth;ctx.drawImage(image,-size/2,-height/2,size,height);ctx.restore();
 }
+
+const healed=new WeakMap<HTMLImageElement,HTMLCanvasElement>();
+export function healSprite(image:HTMLImageElement){let canvas=healed.get(image);if(!canvas){canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d')!;ctx.drawImage(image,0,0);ctx.globalCompositeOperation='source-atop';ctx.globalAlpha=.55;ctx.fillStyle='#64efaa';ctx.fillRect(0,0,canvas.width,canvas.height);healed.set(image,canvas);}return canvas;}
