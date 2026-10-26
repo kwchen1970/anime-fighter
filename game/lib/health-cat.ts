@@ -1,6 +1,6 @@
 import type {Match} from './game.ts';
 export type HealthCat={x:number;y:number;born:number;expires:number;vx?:number;vy?:number;updatedAt?:number;evasions?:number;escaping?:boolean;lastEvadeAt?:number};
-export const CAT_HEAL=25;
+export const CAT_HEAL=40;
 export function catCatchable(cat:HealthCat,now:number,bot=false){return (cat.evasions??0)>=(bot?1:3)&&now-cat.born>=(bot?3000:8000);}
 export function catPosition(cat:HealthCat,now:number){const age=(now-cat.born)/1000,dt=Math.max(0,Math.min(.06,(now-(cat.updatedAt??now))/1000));return {x:cat.x+(cat.vx??0)*dt,y:cat.y+(cat.vy??0)*dt+Math.sin(age*2)*9};}
 export function updateHealthCat(g:Match,now:number){

@@ -21,7 +21,7 @@ export function shouldSeekHealthCat(g:Match,now:number){
  const bot=g.players[1],opponent=g.players[0];if(!g.healthCat||bot.hp/(bot.maxHp??100)>.25)return false;
  const cat=catPosition(g.healthCat,now),horizontal=Math.abs(cat.x-bot.x),vertical=Math.abs(cat.y-150-(bot.y??0));
  const inCombat=Math.abs(opponent.x-bot.x)<280&&Math.abs((opponent.y??0)-(bot.y??0))<140;
- return !inCombat&&horizontal<600&&vertical<350;
+ return bot.hp/(bot.maxHp??100)<=.15||(!inCombat&&horizontal<600&&vertical<350);
 }
 export function updateBot(g:Match,now:number,clock:BotClock) {
  const bot=g.players[1],opponent=g.players[0],profile=STAGES[g.stage??0];
