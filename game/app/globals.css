@@ -290,3 +290,18 @@ header>button.sound{margin-left:auto}
 @media(pointer:coarse) and (orientation:landscape){
  .play-screen .touch-controls.controller-layout>.attack-diamond{position:relative;left:10px}
 }
+
+/* Fit the portrait home page to the viewport, including its illustration.
+   Oversized fighter PNGs must not widen the document and shrink the page. */
+@media(max-width:760px) and (orientation:portrait){
+ .home-screen{width:100%;min-width:0;min-height:100svh;overflow-x:clip}
+ .home-screen:before{height:100%;background-size:auto 100%;background-position:65% top}
+ .home-screen>header{margin-left:16px;margin-right:16px;min-width:0}
+ .home-screen .hero{width:100%;max-width:100%;margin:20px 0 28px;padding:0 16px;align-items:stretch}
+ .home-screen .hero-copy,.home-screen .hero-art.fighter-showcase{width:100%;max-width:none;min-width:0}
+ .home-screen .play-card{width:100%;max-width:none;min-width:0}
+ .home-screen .hero-art.fighter-showcase{overflow:clip}
+ .home-screen .roster-grid{width:100%;min-width:0}
+ .home-screen .how{margin-left:16px;margin-right:16px;min-width:0}
+ .home-screen footer{flex-wrap:wrap;gap:10px;padding-left:16px;padding-right:16px}
+}
