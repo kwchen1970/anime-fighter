@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {newMatch,advance} from '../lib/game.ts';
+import {updateBot} from '../lib/campaign.ts';
+import {platformsIn} from '../lib/platforms.ts';
+const p=platformsIn(50,900,200,200)[0];
+const g=newMatch(0,0);g.botSlot=1;const [you,bot]=g.players;Object.assign(you,{x:p.x+12,y:200,action:'kick',started:0,until:940,face:-1});Object.assign(bot,{x:you.x-130,y:170,vy:100,airborne:true,ledgePressure:1,lastLedgeHit:100});g.time=340;advance(g,350);assert.equal(bot.ledgePressure,2,'recognizes repeated kicks during edge approach');
+Object.assign(bot,{x:you.x-130,y:180,vy:300,stun:0,knocked:false,until:0,airborne:true});updateBot(g,1000,{think:0,attack:0,count:0});assert.ok(bot.guardUntil!>1000,'readies a short approach guard');
+Object.assign(you,{action:'kick',started:700,until:1640,hit:false,face:-1});g.time=1040;bot.y=180;bot.vy=100;const hp=bot.hp;advance(g,1050);assert.equal(bot.hp,hp-6,'guard reduces damage but is not invulnerability');assert.equal(bot.knocked,false);assert.equal(bot.stun,0,'guard prevents repeated hit stun');assert.ok(Math.abs(bot.knockback??0)<1||bot.knockback===undefined);
+const human=newMatch(0,0);Object.assign(human.players[0],{x:1300,action:'kick',started:0,until:940,face:1});Object.assign(human.players[1],{x:1450,guardUntil:1000});advance(human,350);assert.equal(human.players[1].hp,103,'no advantage in human multiplayer');
+console.log('Repeated edge-kick detection, limited approach guard, reduced damage, and unchanged human multiplayer passed.');

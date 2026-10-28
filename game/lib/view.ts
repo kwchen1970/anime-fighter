@@ -1,3 +1,4 @@
+import {punchTravelFactor,punchMoveScale} from './punch-timing.ts';
 import {GRAVITY,JUMP_SPEED,platformsIn} from './platforms.ts';
 import { SPEED, WORLD, type Fighter, type Match } from './game.ts';
 
@@ -5,9 +6,9 @@ export type Snapshot = { time: number; match: Match };
 export const damp = (value:number,target:number,speed:number,dt:number) => value+(target-value)*(1-Math.exp(-speed*dt));
 const clampX = (x:number) => x;
 
-function velocity(f:Fighter,now:number) {
+function velocity(f:Fighter,now:number,slot:number) {
   if(f.knockback&&f.stun>now)return f.knockback;
-  return (f.airborne||f.action==='run'&&f.until<=now||f.action==='punch'&&f.until>now)&&f.stun<=now&&now-f.input.at<400?Math.sign(f.input.move)*SPEED*(f.action==='punch'?.8:1):0;
+  return (f.airborne||f.action==='run'&&f.until<=now||f.action==='punch'&&f.until>now)&&f.stun<=now&&now-f.input.at<400?(Math.sign(f.input.move)||(f.action==='punch'&&!f.punchRunning?f.face:0))*SPEED*(f.action==='punch'?punchTravelFactor(slot,now-f.started)*punchMoveScale(!!f.input.move):1):0;
 }
 
 // Opponents render a little behind the server, between snapshots, rather than
@@ -26,7 +27,7 @@ export function sampleOpponent(history:Snapshot[],slot:number,now:number):Fighte
     before=after;
   }
   const f=before.match.players[slot];
-  const age=Math.max(0,Math.min(.15,(target-before.time)/1000));return {...f,x:clampX(f.x+velocity(f,target)*age),...projectVertical(f,age,target)};
+  const age=Math.max(0,Math.min(.15,(target-before.time)/1000));return {...f,x:clampX(f.x+velocity(f,target,slot)*age),...projectVertical(f,age,target)};
 }
 
 // Tile identity follows world position. Wrapping only a camera offset would
@@ -49,5 +50,5 @@ export function projectVertical(f:Fighter,age:number,now:number):Pick<Fighter,'y
  if(!airborne)return {y,vy,airborne,action:f.action};
  const previous=y;y+=vy*time-.5*GRAVITY*time*time;vy-=GRAVITY*time;
  if(vy<=0){let floor=0;for(const platform of platformsIn(f.x,f.x,y,previous))if(platform.y<=previous)floor=Math.max(floor,platform.y);if(y<=floor){y=floor;vy=0;airborne=false;}}
- return {y,vy,airborne,action:airborne?'jump':f.action};
+ return {y,vy,airborne,action:f.knocked?'fall':airborne?'jump':f.action};
 }

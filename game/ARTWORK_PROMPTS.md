@@ -74,3 +74,11 @@ Rendered at maximum 80% opacity, punch width170 and kick width210 world units, q
 ## Flying health cat (built-in imagegen, October 26)
 Asset: public/assets/effects/flying-health-cat.png
 Prompt: Single cute flying anime kitten sprite on transparency. Fluffy cream-white kitten, lavender ear tips, pink cheeks, happy teal eyes, tiny feathered wings spread, tucked paws, curled tail, sakura flower by ear. Gentle floating pose, polished hand-drawn cel shading for pastel Tokyo game, fine indigo outlines. Full silhouette centered with margin; no words, floor, scenery, pixel art or outside sparkles.
+
+## Mochi Mayhem title logo (built-in imagegen, October 27)
+Asset: public/assets/home/mochi-mayhem-logo.png
+Prompt: Transparent professional anime arcade game logo with exact text MOCHI MAYHEM, MOCHI above MAYHEM. Bold slanted hand lettering, ivory and sakura-pink faces, lavender shading, indigo outlines, fine gold accents. Cherry blossoms, tiny cute mochi mascot, restrained dynamic swooshes. Sunny Tokyo café anime aesthetic, cute and energetic, clean silhouette, readable at small sizes. No backdrop, extra text, watermark, or pixel art.
+
+## Drifting home-page petal (built-in imagegen, October 27)
+Asset: public/assets/home/sakura-petal.png
+Prompt: One isolated pale blush-pink sakura petal, curved teardrop with notched tip, hand-painted cel anime style, soft rose shading, ivory pink center, fine edge without dark outline. Slightly curled three-quarter view, centered transparent background with margin. No flower, branch, sparkles, words, or multiple petals. Restrained pastel Tokyo game aesthetic.

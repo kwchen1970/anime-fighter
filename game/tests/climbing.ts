@@ -21,3 +21,12 @@ for(const level of [0,1,2]){
  assert.ok(top>350);assert.equal(f.y,200);assert.equal(f.airborne,false);
 }
 console.log('Infinite platform generation, jump-through landing, higher jump, and sequential bot climbing passed.');
+// Landing waypoints use a safe inset, rather than the edge that caused slips.
+{
+ const g=newMatch(0,0);g.players[0].x=1500;g.players[0].y=880;
+ const clock:{think:number;attack:number;count:number;waypoint?:{x:number;y:number;at:number}}={think:0,attack:0,count:0};
+ updateBot(g,200,clock);
+ if(clock.waypoint){const w=clock.waypoint,p=platformsIn(w.x,w.x,w.y,w.y)[0];assert.ok(w.x>=p.x+119&&w.x<=p.x+p.width-119,'aim inside platform');}
+ clock.waypoint={x:1500,y:200,at:200};g.players[1].x=1400;g.players[1].y=200;g.players[1].airborne=false;g.players[1].input.jump=0;
+ updateBot(g,400,clock);assert.equal(g.players[1].input.move,1);assert.equal(g.players[1].input.jump,0,'finish moving into landing before another jump');
+}

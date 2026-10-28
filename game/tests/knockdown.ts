@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {newMatch,advance} from '../lib/game.ts';
+import {fallFrame} from '../lib/knockdown.ts';
+import {platformsIn} from '../lib/platforms.ts';
+assert.equal(fallFrame(0,undefined,2000),3,'hold airborne before impact frame');assert.equal(fallFrame(0,2000,2000),4,'frame five on contact');assert.equal(fallFrame(0,2000,2400),7);
+const g=newMatch(0,0);const [a,b]=g.players;a.x=1300;b.x=1450;b.heavyHits=2;a.action='kick';a.started=0;a.until=940;a.face=1;
+advance(g,350);assert.ok(b.knocked);assert.equal(b.action,'fall');assert.equal(g.events.at(-1)?.strong,true,'knockdown carries strong audio event');assert.equal(b.fallLanded,undefined);
+for(let t=367;t<1800;t+=17)advance(g,t);assert.equal(b.knocked,false);assert.ok(b.fallLanded);assert.equal(b.y,0);assert.ok(b.landingDustAt);assert.equal(b.hp,103);
+const normal=newMatch(0,0);normal.players[0].x=1300;normal.players[1].x=1450;normal.players[0].action='punch';normal.players[0].until=780;advance(normal,300);assert.ok(!normal.players[1].knocked,'ordinary punch does not knock down');
+const high=newMatch(0,0);const ledge=platformsIn(50,900,200,200)[0];const victim=high.players[1];victim.x=ledge.x+300;victim.y=500;victim.vy=-100;victim.airborne=true;victim.knocked=true;victim.fallStarted=0;high.players[0].x=2000;
+for(let t=17;t<1500;t+=17)advance(high,t);assert.equal(victim.y,200,'lands on solid platform');assert.ok(victim.landingDustAt);
+console.log('Occasional heavy-hit knockdown, landing frame five, recovery, ground/platform landing and dust passed.');

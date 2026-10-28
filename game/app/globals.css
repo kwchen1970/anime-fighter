@@ -70,9 +70,9 @@ body{background:#f0f3fc;color:#233044}h1 em{color:#3f72b0}
 .home-screen .how{background:#fffbf7b3;border:1px solid #e4d8e3;border-radius:16px;padding:24px;margin-bottom:35px;gap:22px}.home-screen .how>div{padding-left:35px}.home-screen .how .number{font-size:21px}.home-screen footer{background:#faf6f6;border-color:#e4d8e3}
 .phone-hint{display:none}.touch-controls button,.arena{touch-action:none}.touch-controls button{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;min-width:64px;min-height:58px}.touch-controls button:active{transform:translateY(2px);filter:brightness(.94)}
 @media(max-width:760px){.home-screen .hero{display:flex;flex-direction:column;gap:10px;margin:25px 5% 30px;min-height:0}.home-screen .hero-copy{width:100%;max-width:490px;padding:0}.home-screen h1.title-art{height:170px;max-width:390px;margin:8px auto}.home-screen .hero-copy>.eyebrow{justify-content:center;font-size:8px}.home-screen p.intro{text-align:center;font-size:17px}.home-screen .tags{justify-content:center}.home-screen .play-card{max-width:none;padding:20px}.home-screen .hero-art{width:100%;max-width:490px;min-height:350px;align-self:center}.home-screen .fighter-panel{top:45px;bottom:35px}.home-screen .fighter-panel.purple{top:65px}.home-screen .art-label{top:0}.scene-caption{display:none}.home-screen .fighter-panel>div{bottom:7px;padding:6px 10px;min-width:86px}.home-screen .fighter-panel strong{font-size:23px}.home-screen .fighter-panel small{display:none}.home-screen .art-footer{bottom:-5px;font-size:6px}.home-screen .how{grid-template-columns:1fr;margin:20px 5% 30px}.home-screen:before{height:1100px;background-position:65% top;background-image:linear-gradient(180deg,#fff8f2e6,#fff9f2cc 55%,#f9eff3a8),url('/assets/home/sakura-title-screen.png')}.home-screen .header-note{display:none}.home-screen header{gap:9px}.home-screen .sound{font-size:9px;padding:8px}.home-screen .brand{font-size:11px}}
-@media(pointer:coarse),(max-width:760px){.control-strip{display:none}.phone-hint{display:block;text-align:center;font-size:10px;line-height:1.5;color:#87728e;margin:12px 0 6px}.touch-controls{padding-bottom:env(safe-area-inset-bottom);gap:14px;align-items:center}.touch-controls>div:last-child{display:grid;grid-template-columns:repeat(2,minmax(60px,1fr));gap:8px}.touch-controls>div:first-child{gap:8px}.touch-controls button{border-radius:16px;min-width:62px;height:60px;font-size:11px}.touch-controls>div:first-child button{width:66px;font-size:25px}}
-@media(pointer:coarse) and (orientation:landscape),(max-height:500px) and (orientation:landscape){.play-screen header{height:42px}.play-screen .game-shell{margin-top:10px}.stage-track{display:none}.arena-heading{margin-bottom:8px}.arena-heading h2{font-size:22px}.game-shell>.hud{padding:6px 12px;margin:7px 0}.touch-controls{margin-top:8px}.touch-controls>div:last-child{grid-template-columns:repeat(4,60px)}.touch-controls button{height:50px;min-height:50px}.phone-hint{margin:6px 0;font-size:9px}}
-@media(pointer:coarse) and (orientation:landscape),(max-height:500px) and (orientation:landscape){
+@media(pointer:coarse){.control-strip{display:none}.phone-hint{display:block;text-align:center;font-size:10px;line-height:1.5;color:#87728e;margin:12px 0 6px}.touch-controls{padding-bottom:env(safe-area-inset-bottom);gap:14px;align-items:center}.touch-controls>div:last-child{display:grid;grid-template-columns:repeat(2,minmax(60px,1fr));gap:8px}.touch-controls>div:first-child{gap:8px}.touch-controls button{border-radius:16px;min-width:62px;height:60px;font-size:11px}.touch-controls>div:first-child button{width:66px;font-size:25px}}
+@media(pointer:coarse) and (orientation:landscape){.play-screen header{height:42px}.play-screen .game-shell{margin-top:10px}.stage-track{display:none}.arena-heading{margin-bottom:8px}.arena-heading h2{font-size:22px}.game-shell>.hud{padding:6px 12px;margin:7px 0}.touch-controls{margin-top:8px}.touch-controls>div:last-child{grid-template-columns:repeat(4,60px)}.touch-controls button{height:50px;min-height:50px}.phone-hint{margin:6px 0;font-size:9px}}
+@media(pointer:coarse) and (orientation:landscape){
  .play-screen .game-shell{display:grid;grid-template-columns:82px minmax(0,1fr)140px;gap:6px 10px;margin:7px 3% 12px}
  .play-screen .arena-heading{grid-column:1/-1;grid-row:1;gap:10px;margin:0;flex-wrap:nowrap}.play-screen .arena-heading h2{font-size:20px}.play-screen .arena-heading .leave{width:auto;margin-left:auto;white-space:nowrap}.play-screen .room-pill{padding:5px 10px}
  .play-screen .game-shell>.hud{grid-column:1/-1;grid-row:2;margin:0}.play-screen .arena{grid-column:2;grid-row:3;width:100%;max-width:calc((100svh - 160px)*1200/660);justify-self:center;align-self:center;aspect-ratio:1200/660}
@@ -81,7 +81,7 @@ body{background:#f0f3fc;color:#233044}h1 em{color:#3f72b0}
 }
 
 .home-screen .art-label{background:none;border:0;box-shadow:none;text-shadow:none;color:#735578}.home-screen .scene-caption{display:none}@media(max-width:760px){.home-screen .hero-art{overflow:clip}.home-screen .art-footer{bottom:0}}
-@media(pointer:coarse) and (orientation:landscape),(max-height:500px) and (orientation:landscape){.play-screen .control-strip{display:none}.play-screen .touch-controls button{font-size:11px}.play-screen .touch-controls>div:first-child button{font-size:25px}.play-screen .overlay-card{padding:12px 18px;min-width:210px}.play-screen .overlay-card .countdown{font-size:46px!important;margin:5px 0}.play-screen .overlay-card p{font-size:10px;margin:6px 0}}
+@media(pointer:coarse) and (orientation:landscape){.play-screen .control-strip{display:none}.play-screen .touch-controls button{font-size:11px}.play-screen .touch-controls>div:first-child button{font-size:25px}.play-screen .overlay-card{padding:12px 18px;min-width:210px}.play-screen .overlay-card .countdown{font-size:46px!important;margin:5px 0}.play-screen .overlay-card p{font-size:10px;margin:6px 0}}
 /* Two-thumb controls: left analog-style stick and right diamond buttons. */
 .touch-controls.controller-layout{display:none;justify-content:space-between;align-items:center;gap:16px;padding:10px max(3px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(3px,env(safe-area-inset-left))}
 .controller-layout .joystick-section{display:flex;flex-direction:column;align-items:center;gap:8px}
@@ -92,13 +92,13 @@ body{background:#f0f3fc;color:#233044}h1 em{color:#3f72b0}
 .touch-controls.controller-layout .round-action{position:absolute;display:flex;align-items:center;justify-content:center;width:58px;height:58px;min-width:58px;min-height:58px;border-radius:50%;padding:6px;font-size:10px;font-weight:700;line-height:1.15;letter-spacing:.3px;box-shadow:0 3px 0 #9b84ad55;touch-action:none}
 .round-action.north{top:0;left:58px}.round-action.west{top:58px;left:0}.round-action.east{top:58px;right:0}.round-action.south{bottom:0;left:58px}
 .round-action.punch-action{background:#f3dce6;color:#87566f}.round-action.kick-action{background:#e6def5;color:#72588d}.round-action.sweep-action{background:#dce8f5;color:#54789a}.round-action.jump-action{background:#e0eeea;color:#597e76}
-@media(pointer:coarse) and (orientation:landscape),(max-height:500px) and (orientation:landscape){.play-screen .game-shell{grid-template-columns:136px minmax(0,1fr)174px}.play-screen .touch-controls.controller-layout{display:contents}.play-screen .touch-controls.controller-layout>.joystick-section{grid-column:1;grid-row:3;display:flex;flex-direction:column;gap:7px;align-self:center}.play-screen .touch-controls.controller-layout>.attack-diamond{grid-column:3;grid-row:3;display:block;width:174px;height:174px;align-self:center}.play-screen .touch-controls.controller-layout .round-action{width:58px;height:58px;min-width:58px;min-height:58px;font-size:10px}}
+@media(pointer:coarse) and (orientation:landscape){.play-screen .game-shell{grid-template-columns:136px minmax(0,1fr)174px}.play-screen .touch-controls.controller-layout{display:contents}.play-screen .touch-controls.controller-layout>.joystick-section{grid-column:1;grid-row:3;display:flex;flex-direction:column;gap:7px;align-self:center}.play-screen .touch-controls.controller-layout>.attack-diamond{grid-column:3;grid-row:3;display:block;width:174px;height:174px;align-self:center}.play-screen .touch-controls.controller-layout .round-action{width:58px;height:58px;min-width:58px;min-height:58px;font-size:10px}}
 @media(max-width:350px){.thumb-joystick{width:116px;height:116px}.touch-controls.controller-layout{gap:6px}.joystick-caption{font-size:7px}}
 
-@media(pointer:coarse),(max-width:760px){.touch-controls.controller-layout{display:flex}}
-@media(pointer:coarse) and (orientation:landscape),(max-height:500px) and (orientation:landscape){.play-screen .touch-controls.controller-layout{display:contents}}
+@media(pointer:coarse){.touch-controls.controller-layout{display:flex}}
+@media(pointer:coarse) and (orientation:landscape){.play-screen .touch-controls.controller-layout{display:contents}}
 /* Compact phone chrome leaves more room for the actual fight. */
-@media(pointer:coarse),(max-width:760px){
+@media(pointer:coarse){
  .play-screen .thumb-joystick{width:92px;height:92px}
  .play-screen .joystick-knob{width:40px;height:40px;left:calc(50% - 20px);top:calc(50% - 20px)}
  .play-screen .touch-controls.controller-layout .attack-diamond{width:132px;height:132px}
@@ -108,7 +108,7 @@ body{background:#f0f3fc;color:#233044}h1 em{color:#3f72b0}
  .play-screen .game-shell{margin-left:2%;margin-right:2%}
  .play-screen .touch-controls.controller-layout{padding-top:5px}
 }
-@media(pointer:coarse) and (orientation:landscape),(max-height:500px) and (orientation:landscape){
+@media(pointer:coarse) and (orientation:landscape){
  .play-screen header{height:32px;padding-top:0;padding-bottom:0}
  .play-screen header .brand{font-size:10px}.play-screen header .edition{display:none}
  .play-screen header .sound{font-size:8px;padding:4px 8px}
@@ -121,7 +121,7 @@ body{background:#f0f3fc;color:#233044}h1 em{color:#3f72b0}
  .play-screen .touch-controls.controller-layout .round-action{width:44px;height:44px;min-width:44px;min-height:44px;font-size:8px}
  .play-screen .phone-hint{font-size:7px;margin:0}
 }
-@media(pointer:coarse) and (orientation:landscape),(max-height:500px) and (orientation:landscape){
+@media(pointer:coarse) and (orientation:landscape){
  .play-screen .thumb-joystick{width:92px;height:92px}
  .play-screen .joystick-knob{width:40px;height:40px;left:calc(50% - 20px);top:calc(50% - 20px)}
  .play-screen .round-action.north{left:44px}.play-screen .round-action.west{top:44px}.play-screen .round-action.east{top:44px}.play-screen .round-action.south{left:44px}
@@ -130,3 +130,101 @@ body{background:#f0f3fc;color:#233044}h1 em{color:#3f72b0}
  .play-screen .fighter-hud small{display:none}.play-screen .fighter-hud strong{font-size:12px}
  .play-screen .arena{max-width:calc((100svh - 103px)*1200/660)}
 }
+
+/* Keyboard/mouse computers retain desktop controls even in a short window. */
+@media(pointer:fine){.play-screen .touch-controls.controller-layout,.play-screen .phone-hint{display:none}.play-screen .control-strip{display:flex;flex-wrap:wrap}.play-screen .game-shell{width:94%;max-width:min(1200px,calc((100svh - 300px)*1200/660));margin:12px auto 20px}.play-screen .stage-track{margin:5px 0}.play-screen .stage-stop{padding:4px 8px;min-height:0}.play-screen .stage-stop img{width:42px;height:30px}.play-screen .arena-heading{margin-bottom:6px}.play-screen .arena-heading h2{font-size:24px}.play-screen header{height:56px}.play-screen .game-shell>.hud{padding:6px 10px;margin:6px 0}.play-screen .control-strip{margin-top:8px;padding:5px 0;gap:10px}}
+.fullscreen-toggle{border:1px solid #c7b6d4;border-radius:8px;padding:7px 10px;background:#f8f2fc;color:#725e81;font:inherit;font-size:10px;white-space:nowrap;cursor:pointer}
+.game-shell:fullscreen{box-sizing:border-box;width:100%;max-width:none;height:100dvh;margin:0;padding:10px max(12px,env(safe-area-inset-right)) 10px max(12px,env(safe-area-inset-left));background:#eeeaf5;overflow:auto}
+.game-shell:fullscreen .stage-track,.game-shell:fullscreen .control-strip{display:none}
+.game-shell:fullscreen>.hud{position:relative;inset:auto;margin:4px auto 8px;max-width:1200px}
+.game-shell:fullscreen .arena{width:100%;max-width:calc((100dvh - 150px)*1200/660);margin:0 auto}
+.game-shell:fullscreen .arena-heading{max-width:1200px;margin:0 auto 6px}
+.low-health-warning{position:absolute;inset:0;z-index:2;pointer-events:none;border:3px solid #d65c6b88;box-shadow:inset 0 0 24px #e04d6322;border-radius:inherit}
+.low-health-warning span{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;font-size:16px;white-space:nowrap;color:#a63a52;background:#fff4f4de;border:1px solid #df8d9c80;border-radius:5px;padding:4px 10px}
+.low-health-warning.flashing{animation:low-health-pulse 1s ease-in-out 5}
+@keyframes low-health-pulse{0%,100%{border-color:#d65c6b66;box-shadow:inset 0 0 15px #e04d6315}50%{border-color:#e44d65cc;box-shadow:inset 0 0 35px #e04d6355}}
+@media(prefers-reduced-motion:reduce){.low-health-warning.flashing{animation:none}}
+@media(pointer:coarse){.fullscreen-toggle{font-size:8px;padding:4px 6px}.low-health-warning span{font-size:12px;top:5px}}
+/* Give desktop play the available width; reserve height only for essential HUD. */
+@media(pointer:fine){
+ .play-screen header{height:48px}
+ .play-screen .game-shell{width:96%;max-width:min(1600px,calc((100svh - 170px)*1200/660));margin:8px auto 16px}
+ .play-screen .stage-track{display:none}
+ .play-screen .arena-heading{margin-bottom:4px}
+ .play-screen .arena-heading h2{font-size:23px;margin-top:2px}
+ .play-screen .game-shell>.hud{margin:4px 0 6px;padding:5px 10px}
+ .play-screen .game-shell:fullscreen{width:100%;max-width:none;margin:0}
+ .play-screen .game-shell:fullscreen .arena{max-width:calc((100dvh - 130px)*1200/660)}
+}
+
+.play-guide{width:min(540px,90vw);max-height:85svh;overflow:auto;border:1px solid #c9b2d7;border-radius:16px;padding:24px;background:#fff9fa;color:#584362;font-family:inherit;box-shadow:0 20px 70px #30203b44}
+.play-guide::backdrop{background:#271e3b88}.play-guide h2,.play-guide h3{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase}.play-guide h2{font-size:30px;margin:0 0 14px}.play-guide h3{margin:18px 0 6px;font-size:20px}.play-guide p{font-size:13px;line-height:1.7;margin:0}.play-guide form{margin-top:20px}.play-guide .primary{width:100%}
+.victory-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:6;animation:confetti-fade 5.5s linear forwards}
+.victory-confetti i{position:absolute;top:-20px;border-radius:1px;opacity:0;animation:confetti-rain linear forwards;will-change:transform}
+@keyframes confetti-rain{0%{transform:translate3d(0,-20px,0) rotate(0);opacity:1}85%{opacity:1}100%{transform:translate3d(var(--drift),110vh,0) rotate(var(--spin));opacity:0}}
+@keyframes confetti-fade{0%,80%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.victory-confetti{display:none}}
+
+.brand-logo{display:block;width:140px;height:44px;object-fit:contain}.brand .edition{margin-left:6px}@media(pointer:coarse){.brand-logo{width:105px;height:32px}}
+
+/* A calm, balanced roster replaces overlapping fighter labels and ribbons. */
+.home-screen .hero-art.fighter-showcase{display:flex;flex-direction:column;justify-content:center;min-height:540px;overflow:visible;gap:16px;padding:16px 0}
+.showcase-heading{display:flex;justify-content:space-between;gap:12px;padding:0 5px;color:#806785;font-size:9px;letter-spacing:2px}
+.roster-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;position:relative;isolation:isolate}
+.roster-card{display:flex;flex-direction:column;min-width:0;border:1px solid #d3bdd655;border-radius:20px;overflow:hidden;background:linear-gradient(160deg,#fff8f4ba,#edd8e86b);box-shadow:0 12px 32px #7053760b}
+.roster-card.yuna-card{background:linear-gradient(200deg,#f9f6ffba,#dadbf16b)}
+.roster-portrait{position:relative;display:flex;justify-content:center;align-items:flex-end;height:360px;overflow:hidden;padding-top:26px}
+.roster-portrait:after{content:'';position:absolute;bottom:5px;left:20%;right:20%;height:9px;background:#73517d1a;filter:blur(4px);border-radius:50%;z-index:-1}
+.roster-portrait img{height:100%;width:155%;max-width:none;object-fit:contain;flex:none;filter:drop-shadow(0 7px 7px #67517718)}
+.yuna-card .roster-portrait img{transform:scaleX(-1)}
+.roster-caption{padding:18px 12px 19px;text-align:center;background:#fffaf8a8;border-top:1px solid #dfd0e17a}
+.roster-caption span{display:block;font-size:7px;letter-spacing:1.2px;color:#9a809c;margin-bottom:7px}.roster-caption strong{font-family:'Barlow Condensed',sans-serif;display:block;font-size:33px;line-height:1;letter-spacing:2px;color:#634873;text-shadow:none}
+.roster-versus{position:absolute;top:43%;left:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid #d5c2dc;background:#fff8f2;color:#9c7ba3;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-style:italic;z-index:2}
+.showcase-note{text-align:center;font-size:11px;color:#987c96;margin:0;letter-spacing:.3px}
+@media(max-width:1000px){
+ .home-screen .hero-copy{align-self:center;width:100%;max-width:540px;padding:0}
+ .home-screen h1.title-art{width:100%;max-width:460px;margin:8px auto;justify-content:center}
+ .home-screen .title-art img{object-position:center}
+ .home-screen p.intro{text-align:center}.home-screen .tags{justify-content:center}
+ .home-screen .hero-art.fighter-showcase{width:100%;max-width:540px;min-height:0;align-self:center;padding:20px 0;gap:14px}
+ .roster-portrait{height:300px}.roster-caption{padding:15px 10px}.showcase-heading{font-size:8px}
+}
+@media(max-width:480px){.home-screen h1.title-art{height:190px;max-width:100%;margin:4px auto 12px}.roster-grid{gap:12px}.roster-portrait{height:240px;padding-top:18px}.roster-caption span{font-size:6px;letter-spacing:.5px}.roster-caption strong{font-size:27px}.roster-card{border-radius:15px}.roster-versus{width:30px;height:30px;font-size:16px}.showcase-note{font-size:10px}}
+@media(max-width:1000px){.home-screen .hero{display:flex;flex-direction:column;align-items:center;width:90%;margin:25px auto 32px;gap:20px;min-height:0}.home-screen .hero-copy{max-width:540px}.home-screen h1.title-art{width:100%;justify-content:center}.home-screen .hero-art.fighter-showcase{align-self:center}}
+
+/* Open character composition, without glass cards. */
+.roster-card,.roster-card.yuna-card{background:none;border:0;border-radius:0;box-shadow:none;overflow:visible}
+.roster-caption{background:none;border:0;padding-top:16px;padding-bottom:10px}
+.roster-portrait{overflow:visible}
+.roster-versus{background:none;border:0;box-shadow:none;color:#93749f;font-size:24px}
+.yuna-card .roster-portrait img{width:175%;transform:scaleX(-1);transform-origin:center}
+.roster-caption strong{font-size:31px}.showcase-note{opacity:.8}
+@media(max-width:480px){.roster-caption strong{font-size:27px}.yuna-card .roster-portrait img{width:165%}}
+/* Keep roster typography legible over the detailed city artwork at any width. */
+.showcase-heading{justify-content:center;align-items:center;flex-wrap:wrap;gap:8px 16px;text-align:center;color:#5e446d;font-weight:700;letter-spacing:1.6px;text-shadow:0 1px 3px #fffaf8,0 0 10px #fffaf8}
+.showcase-heading span:last-child{color:#70567a}
+.roster-caption{display:flex;justify-content:center;align-items:center;text-align:center;position:relative}
+.roster-caption strong{position:relative;display:inline-block;min-width:105px;padding:6px 15px;color:#503462;text-align:center;text-shadow:0 1px 2px #fff9f7,0 0 8px #fff9f7,0 0 16px #fff9f7}
+.roster-caption strong:before{content:'';position:absolute;inset:1px -13px;z-index:-1;background:radial-gradient(ellipse,#fff8f1dc 20%,#fff8f180 55%,transparent 73%);pointer-events:none}
+.roster-versus{color:#63456f;font-weight:700;text-shadow:0 1px 4px #fff,0 0 10px #fff}
+.home-screen .header-note{color:#604f6b;font-weight:600;text-shadow:0 1px 4px #fff8f5}
+.home-screen header .sound{background:#fff9f0de;color:#64466f;border-color:#cbb7ce}
+header>button.sound{margin-left:auto}
+
+.home-petals{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;mask-image:linear-gradient(transparent,#000 12%,#000 85%,transparent)}
+.home-screen>header,.home-screen>.hero,.home-screen>.how,.home-screen>footer{position:relative;z-index:1}
+.home-petals>span{position:absolute;top:-12vh;opacity:0;animation:home-petal-drift linear infinite;will-change:transform}
+.home-petals img{display:block;width:100%;height:100%;object-fit:contain;animation:home-petal-flutter ease-in-out infinite alternate}
+@keyframes home-petal-drift{0%{transform:translate3d(-30px,-20px,0);opacity:0}12%{opacity:var(--petal-alpha)}45%{transform:translate3d(var(--breeze),48vh,0)}80%{opacity:var(--petal-alpha)}100%{transform:translate3d(35px,118vh,0);opacity:0}}
+@keyframes home-petal-flutter{0%{transform:rotate(-25deg) scaleX(.85)}50%{transform:rotate(15deg) scaleX(1)}100%{transform:rotate(55deg) scaleX(.7)}}
+@media(max-width:600px){.home-petals>span:nth-child(n+9){display:none}}
+@media(prefers-reduced-motion:reduce){.home-petals{display:none}}
+/* The breeze ends with the play card instead of following the viewport. */
+.home-petals{position:absolute;inset:0 0 auto;mask-image:linear-gradient(transparent,#000 8%,#000 92%,transparent)}
+.home-petals>span{top:-40px}
+@keyframes home-petal-drift{0%{transform:translate3d(50px,-30px,0);opacity:0}10%{opacity:var(--petal-alpha)}40%{transform:translate3d(calc(var(--breeze)*.4),calc(var(--petal-fall)*.4),0)}75%{transform:translate3d(calc(var(--breeze)*.7),calc(var(--petal-fall)*.75),0);opacity:var(--petal-alpha)}100%{transform:translate3d(var(--breeze),var(--petal-fall),0);opacity:0}}
+@media(max-width:600px){.home-petals>span:nth-child(n+9){display:block}.home-petals>span:nth-child(n+15){display:none}}
+
+.paused-arena .victory-confetti,.paused-arena .victory-confetti i,.paused-arena .low-health-warning{animation-play-state:paused}.fullscreen-toggle:disabled{opacity:.5;cursor:default}
+
+.control-strip kbd{flex-shrink:0;white-space:nowrap;line-height:1}.control-strip kbd.key-space{width:auto;min-width:48px;padding:0 8px}

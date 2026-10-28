@@ -28,3 +28,12 @@ export function drawImpact(ctx:CanvasRenderingContext2D,image:HTMLImageElement|u
 
 const healed=new WeakMap<HTMLImageElement,HTMLCanvasElement>();
 export function healSprite(image:HTMLImageElement){let canvas=healed.get(image);if(!canvas){canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;const ctx=canvas.getContext('2d')!;ctx.drawImage(image,0,0);ctx.globalCompositeOperation='source-atop';ctx.globalAlpha=.55;ctx.fillStyle='#64efaa';ctx.fillRect(0,0,canvas.width,canvas.height);healed.set(image,canvas);}return canvas;}
+
+export function drawLandingDust(ctx:CanvasRenderingContext2D,at:number,x:number,y:number,now:number,scale:number){
+ const p=(now-at)/600;if(p<0||p>=1)return;
+ ctx.save();
+ for(let i=0;i<10;i++){const side=i%2?1:-1,spread=(18+i*5+p*(35+i*3))*scale;
+ ctx.globalAlpha=(1-p)*.24;ctx.fillStyle=i%3?'#f5e6e5':'#d5ccdc';ctx.beginPath();
+ ctx.ellipse(x+side*spread,y-(4+p*(12+i%3*5))*scale,(10+p*18)*scale,(5+p*10)*scale,side*.12,0,Math.PI*2);ctx.fill();}
+ ctx.restore();
+}

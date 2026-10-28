@@ -1,0 +1,5 @@
+Audio supplied by the game creator from Desktop/animefighter/music:
+background.mp3: maksymmalko-game-game-music-581017.mp3
+normal_punch.mp3: soundeffects/normal_punch.mp3
+strong_punch.mp3: soundeffects/strong_punch.mp3
+levelup.mp3: soundeffects/levelup.mp3

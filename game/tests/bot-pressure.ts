@@ -10,5 +10,5 @@ import {updateBot,STAGES} from '../lib/campaign.ts';
  for(let t=10;t<=20000&&g.winner===null;t+=10){const you=g.players[0];you.input.at=t;if(you.until<=t&&you.stun<=t)you.input.punch=++count;updateBot(g,t,clock);advance(g,t);}
  assert.ok(g.players[0].hp<50,'maintains pressure against stationary punch spam');
 }
-assert.ok(STAGES.every(stage=>stage.cooldown<=1300&&stage.health===100));
+assert.ok(STAGES.every(stage=>stage.cooldown<=1300&&stage.health===120));
 console.log('Bot: attack evasion, counter pressure, and tougher solo profiles passed.');

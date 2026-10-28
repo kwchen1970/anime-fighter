@@ -1,3 +1,4 @@
+import {pauseMatch,resumeMatch} from '@/lib/pause';
 import { env } from 'cloudflare:workers';
 import { advance, newMatch, type Match } from '@/lib/game';
 type Room = { tokens: string[]; seen: number[]; ready: boolean[]; match: Match };
@@ -30,10 +31,12 @@ export async function POST(req: Request) {
       if(slot<0)return json({error:'Your session has ended. Create or join a room again.'},403);
       const bothPresent=r.tokens.length===2&&r.seen.every(t=>now-t<6000);
       if(bothPresent)advance(r.match,now);
-      else { const elapsed=now-r.match.time;r.match.start+=elapsed;r.match.end+=elapsed;r.match.time=now;for(const f of r.match.players){f.input.move=0;f.until=0;f.stun=0;f.action='fight';} }
+      else if(r.match.pausedAt===undefined) { const elapsed=now-r.match.time;r.match.start+=elapsed;r.match.end+=elapsed;r.match.time=now;for(const f of r.match.players){f.input.move=0;f.until=0;f.stun=0;f.action='fight';} }
       r.seen[slot]=now;
-      if(b.op==='tick'&&b.input){const f=r.match.players[slot];f.input={move:Math.max(-1,Math.min(1,Number(b.input.move)||0)),punch:Math.max(f.input.punch,Math.min(f.input.punch+1,Math.floor(Number(b.input.punch)||0))),kick:Math.max(f.input.kick,Math.min(f.input.kick+1,Math.floor(Number(b.input.kick)||0))),jump:Math.max(f.input.jump??0,Math.min((f.input.jump??0)+1,Math.floor(Number(b.input.jump)||0))),sweep:Math.max(f.input.sweep??0,Math.min((f.input.sweep??0)+1,Math.floor(Number(b.input.sweep)||0))),at:now};}
-      if(b.op==='rematch'&&r.match.winner!==null) {r.ready[slot]=true;if(r.ready.every(Boolean)){r.match=newMatch(now);r.ready=[false,false];}}
+      if(b.op==='tick'&&b.input&&r.match.pausedAt===undefined){const f=r.match.players[slot];f.input={move:Math.max(-1,Math.min(1,Number(b.input.move)||0)),punch:Math.max(f.input.punch,Math.min(f.input.punch+1,Math.floor(Number(b.input.punch)||0))),kick:Math.max(f.input.kick,Math.min(f.input.kick+1,Math.floor(Number(b.input.kick)||0))),jump:Math.max(f.input.jump??0,Math.min((f.input.jump??0)+1,Math.floor(Number(b.input.jump)||0))),sweep:Math.max(f.input.sweep??0,Math.min((f.input.sweep??0)+1,Math.floor(Number(b.input.sweep)||0))),at:now};}
+      if(b.op==='pause'&&r.match.pausedAt===undefined){if(r.tokens.length!==2||!pauseMatch(r.match,slot,now))return json({error:'Pause is available during an active match.'},409);}
+      if(b.op==='resume'&&r.match.pausedAt!==undefined&&!resumeMatch(r.match,slot,now))return json({error:'Only the player who paused can resume.'},403);
+      if(b.op==='rematch'&&r.match.winner!==null) {r.ready[slot]=true;if(r.ready.every(Boolean)){r.match=newMatch(now,3000,((r.match.stage??0)+1)%3);r.ready=[false,false];}}
       const result=await db.prepare('UPDATE rooms SET data=?,version=version+1,expires=? WHERE code=? AND version=?').bind(JSON.stringify(r),now+86400000,code,row.version).run();
       if(result.meta.changes)return json({...publicRoom(r,code,slot,now),...(b.op==='join'?{token}: {})});
     }

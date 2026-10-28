@@ -3,7 +3,7 @@ import {STAGES,campaignMatch,nextLevel,updateBot,type BotClock} from '../lib/cam
 import {advance} from '../lib/game.ts';
 for(let i=0;i<STAGES.length;i++) {
  const g=campaignMatch(1000,i);
- assert.equal(g.stage,i);assert.equal(g.players[0].hp,100);assert.equal(g.players[1].hp,STAGES[i].health);
+ assert.equal(g.stage,i);assert.equal(g.players[0].hp,120);assert.equal(g.players[1].hp,STAGES[i].health);
  assert.equal(g.players[1].maxHp,STAGES[i].health);assert.equal(nextLevel(g),null);
  g.winner=1;assert.equal(nextLevel(g),null,'a loss does not skip a stage');
  g.winner=2;assert.equal(nextLevel(g),null,'a tie does not skip a stage');

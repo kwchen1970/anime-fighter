@@ -5,10 +5,10 @@ const run=(g:ReturnType<typeof newMatch>,until:number)=>{for(let t=g.time+16;t<=
  const g=newMatch(0,0);g.players[0].input.move=-1;run(g,6000);assert.ok(g.players[0].x<0,'world extends left');g.players[1].input.move=1;run(g,22000);assert.ok(g.players[1].x>WORLD,'world extends right');
 }
 {
- const g=newMatch(0,0);g.players[1].x=g.players[0].x+130;g.players[0].input.punch=1;run(g,700);assert.equal(g.players[1].hp,90);run(g,1100);assert.equal(g.players[1].hp,90,'one strike must only hit once');
+ const g=newMatch(0,0);g.players[1].x=g.players[0].x+130;g.players[0].input.punch=1;run(g,700);assert.equal(g.players[1].hp,110);run(g,1100);assert.equal(g.players[1].hp,110,'one strike must only hit once');
 }
 {
- const g=newMatch(0,0);g.players[1].x=g.players[0].x+210;g.players[0].input.punch=1;run(g,800);assert.equal(g.players[1].hp,100,'punch out of range');g.players[0].input.kick=1;run(g,1600);assert.equal(g.players[1].hp,83,'kick has longer reach');
+ const g=newMatch(0,0);g.players[1].x=g.players[0].x+210;g.players[0].input.punch=1;run(g,800);assert.equal(g.players[1].hp,120,'punch out of range');g.players[0].input.kick=1;run(g,1600);assert.equal(g.players[1].hp,103,'kick has longer reach');
 }
 {
  const g=newMatch(0,3000);g.players[0].input.move=1;run(g,2000);assert.equal(g.players[0].x,1380,'movement locked during countdown');
@@ -20,3 +20,8 @@ const run=(g:ReturnType<typeof newMatch>,until:number)=>{for(let t=g.time+16;t<=
  const g=newMatch(0,0);g.players[1].x=g.players[0].x+110;g.players.forEach(f=>{f.hp=10;f.input.punch=1;});run(g,600);assert.equal(g.winner,2,'simultaneous knockout is a tie');
 }
 console.log('Combat checks passed: arena boundaries, attack range, damage, countdown, stale input, simultaneous KO.');
+
+{
+ const g=newMatch(0,0);g.players[0].hp=50;g.end=90000;advance(g,91000);assert.equal(g.winner,null,'no timeout victory after 90 seconds');advance(g,500000);assert.equal(g.winner,null,'fight continues until knockout');g.players[1].hp=0;advance(g,500016);assert.equal(g.winner,0,'zero health ends the match');
+}
+console.log('Knockout-only victory continues beyond the old time limit.');
