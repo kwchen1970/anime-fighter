@@ -251,11 +251,11 @@ header>button.sound{margin-left:auto}
  .play-screen .game-shell .arena{grid-column:1;grid-row:3}
  .play-screen .touch-controls.controller-layout>.joystick-section{
   grid-column:1;grid-row:3;justify-self:start;align-self:end;
-  margin:0 0 18px clamp(64px,12vw,125px);z-index:4;
+  margin:0 0 18px clamp(20px,4vw,40px);z-index:4;
  }
  .play-screen .touch-controls.controller-layout>.attack-diamond{
   grid-column:1;grid-row:3;justify-self:end;align-self:end;
-  margin:0 clamp(64px,12vw,125px) 18px 0;z-index:4;
+  margin:0 clamp(20px,4vw,40px) 18px 0;z-index:4;
  }
 }
 
