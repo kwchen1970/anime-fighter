@@ -286,3 +286,7 @@ header>button.sound{margin-left:auto}
   grid-column:3;grid-row:3;justify-self:center;align-self:center;margin:0;z-index:auto;
  }
 }
+
+@media(pointer:coarse) and (orientation:landscape){
+ .play-screen .touch-controls.controller-layout>.attack-diamond{position:relative;left:10px}
+}
