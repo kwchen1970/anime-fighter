@@ -239,3 +239,33 @@ header>button.sound{margin-left:auto}
   padding-right:max(80px,calc(env(safe-area-inset-right,0px) + 32px));
  }
 }
+
+/* Put landscape thumb controls inside the play area, away from the notch.
+   They share the arena grid cell instead of sitting in outer side columns. */
+@media(pointer:coarse) and (orientation:landscape){
+ .play-screen .game-shell,.play-screen .game-shell:fullscreen{
+  grid-template-columns:minmax(0,1fr);
+  padding-left:max(12px,env(safe-area-inset-left,0px));
+  padding-right:max(12px,env(safe-area-inset-right,0px));
+ }
+ .play-screen .game-shell .arena{grid-column:1;grid-row:3}
+ .play-screen .touch-controls.controller-layout>.joystick-section{
+  grid-column:1;grid-row:3;justify-self:start;align-self:end;
+  margin:0 0 18px clamp(64px,12vw,125px);z-index:4;
+ }
+ .play-screen .touch-controls.controller-layout>.attack-diamond{
+  grid-column:1;grid-row:3;justify-self:end;align-self:end;
+  margin:0 clamp(64px,12vw,125px) 18px 0;z-index:4;
+ }
+}
+
+/* Portrait thumb controls sit closer together with a centered, bounded row. */
+@media(pointer:coarse) and (orientation:portrait){
+ .play-screen .touch-controls.controller-layout{
+  width:100%;max-width:360px;margin:8px auto 0;
+  justify-content:space-evenly;gap:12px;
+  padding-left:max(24px,env(safe-area-inset-left,0px));
+  padding-right:max(24px,env(safe-area-inset-right,0px));
+ }
+ .play-screen .touch-controls.controller-layout>.joystick-section{flex-shrink:0}
+}
