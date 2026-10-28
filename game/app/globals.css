@@ -263,8 +263,8 @@ header>button.sound{margin-left:auto}
 @media(pointer:coarse) and (orientation:portrait){
  .play-screen .touch-controls.controller-layout{
   display:grid;grid-template-columns:92px 132px;
-  width:min(100%,272px);max-width:272px;margin:8px auto 0;
-  justify-content:center;align-items:center;gap:24px;padding:5px 12px max(8px,env(safe-area-inset-bottom));
+  width:calc(50% + 136px);max-width:calc(100% - 24px);margin:8px auto 0;
+  justify-content:space-between;align-items:center;gap:12px;padding:5px 12px max(8px,env(safe-area-inset-bottom));
  }
  .play-screen .touch-controls.controller-layout>.joystick-section{flex-shrink:0}
 }
