@@ -269,3 +269,20 @@ header>button.sound{margin-left:auto}
  }
  .play-screen .touch-controls.controller-layout>.joystick-section{flex-shrink:0}
 }
+
+/* Landscape controls use dedicated side rails, not overlays on the arena. */
+@media(pointer:coarse) and (orientation:landscape){
+ .play-screen .game-shell,.play-screen .game-shell:fullscreen{
+  width:100%;max-width:none;margin-left:0;margin-right:0;
+  grid-template-columns:100px minmax(0,1fr) 132px;column-gap:12px;
+  padding-left:max(20px,calc(env(safe-area-inset-left,0px) + 12px));
+  padding-right:max(20px,calc(env(safe-area-inset-right,0px) + 12px));
+ }
+ .play-screen .game-shell .arena{grid-column:2;grid-row:3;min-width:0}
+ .play-screen .touch-controls.controller-layout>.joystick-section{
+  grid-column:1;grid-row:3;justify-self:center;align-self:center;margin:0;z-index:auto;
+ }
+ .play-screen .touch-controls.controller-layout>.attack-diamond{
+  grid-column:3;grid-row:3;justify-self:center;align-self:center;margin:0;z-index:auto;
+ }
+}
