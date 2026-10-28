@@ -1,6 +1,7 @@
 'use client';
 import {dropFrame} from '@/lib/drop-pose';
 import {pauseMatch,resumeMatch} from '@/lib/pause';
+import {connectRoom} from '@/lib/room-connection';
 import HomePetals from './components/HomePetals';
 import {GameAudio} from '@/lib/game-audio';
 import {punchTravelFactor,punchMoveScale} from '@/lib/punch-timing';
@@ -24,6 +25,7 @@ import {damp,sampleOpponent,projectVertical,type Snapshot} from '@/lib/view';
 import {STAGES,campaignMatch,nextLevel,updateBot,type BotClock} from '@/lib/campaign';
 import {drawScenery,drawPetals} from '@/lib/scenery';
 import {groundHeight,DISTRICTS,districtBlend} from '@/lib/terrain';
+declare global {interface Window{MOCHI_REALTIME?:boolean}}
 type Travel={from:number;to:number;at:number};
 type Mode='home'|'practice'|'online';
 type Packet={code:string;slot:number;joined:number;connected:boolean[];ready:boolean[];match:Match;now:number;token?:string};
@@ -67,7 +69,7 @@ export default function Page(){
  }
  async function enter(op:'create'|'join'){if(sound){audio.current??=new GameAudio();audio.current.unlock();}combatFocus.current=newCombatFocus();setBusy(true);setError('');try{clear();input.current={move:0,punch:0,kick:0,jump:0,sweep:0};const p=await request({op,code});const s={code:p.code,slot:p.slot,token:p.token!};sessionStorage.setItem('rooftop-session',JSON.stringify(s));setSession(s);history.current=[];accept(p);camera.current={x:1560,width:1700,elevation:0};displayX.current=p.match.players.map(f=>f.x);setMode('online');}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
  function practice(level=0){if(state.current.sound){audio.current??=new GameAudio();audio.current.unlock();}combatFocus.current=newCombatFocus();travelRef.current=null;setTravel(null);clear();input.current={move:0,punch:0,kick:0,jump:0,sweep:0};scene.current=campaignMatch(Date.now(),level);displayX.current=[1380,1740];history.current=[];botClock.current={think:0,attack:0,count:0};hudClock.current=0;camera.current={x:1560,width:1700,elevation:0};setPacket(null);setSession(null);setError('');setMode('practice');sessionStorage.setItem('blossom-level',String(level));}
- useEffect(()=>{if(mode!=='online'||!session)return;let stopped=false;let timer:ReturnType<typeof setTimeout>;let fails=0;const poll=async()=>{try{const p=await request({op:'tick',...session,input:input.current});if(stopped)return;accept(p);setError('');fails=0;}catch(e){if(stopped)return;fails++;setError(fails>2?'Connection interrupted. Trying to reconnect…':'');}if(!stopped)timer=setTimeout(poll,33);};void poll();return()=>{stopped=true;clearTimeout(timer);};},[mode,session]);
+ useEffect(()=>{if(mode!=='online'||!session)return;if(window.MOCHI_REALTIME)return connectRoom<Packet>({...session,input:()=>input.current,packet:accept,error:setError});let stopped=false;let timer:ReturnType<typeof setTimeout>;let fails=0;const poll=async()=>{try{const p=await request({op:'tick',...session,input:input.current});if(stopped)return;accept(p);setError('');fails=0;}catch(e){if(stopped)return;fails++;setError(fails>2?'Connection interrupted. Trying to reconnect…':'');}if(!stopped)timer=setTimeout(poll,33);};void poll();return()=>{stopped=true;clearTimeout(timer);};},[mode,session]);
  useEffect(()=>{let raf=0;let previous=performance.now();const render=(ts:number)=>{const c=canvas.current;if(c){const ctx=c.getContext('2d',{alpha:false,desynchronized:true});if(ctx){const st=state.current;if(st.mode==='practice')updatePractice(Date.now());const g=scene.current;const fighter=g.players[st.session?.slot??0];if((keys.current.has('j')||punchHeld.current)&&Date.now()-heldPunchAt.current>180&&fighter.until<=g.time&&fighter.stun<=g.time&&g.winner===null){heldPunchAt.current=Date.now();hit('punch');}const serverNow=g.pausedAt??(st.mode==='online'?received.current.server+(Date.now()-received.current.at):Date.now());const dt=Math.min(.04,(ts-previous)/1000);draw(ctx,c,g,serverNow,g.pausedAt!==undefined?0:dt,st.mode,st.session?.slot??0);audio.current?.update(g.pausedAt===undefined&&st.mode!=='home'&&(g.winner===null||!!travelRef.current)&&(st.mode!=='online'||!!st.packet&&st.packet.joined===2&&st.packet.connected.every(Boolean)),st.sound);for(const event of g.events){if(g.pausedAt===undefined&&event.time>lastEffect.current){audio.current?.hit(!!event.strong);}}g.players.forEach((f,i)=>{if(g.pausedAt===undefined&&(f.healFlash??0)>serverNow&&(f.healFlash??0)>lastHealSound.current[i]){lastHealSound.current[i]=f.healFlash!;audio.current?.heal();}});const latest=g.events.at(-1);if(latest)lastEffect.current=Math.max(lastEffect.current,latest.time);}}previous=ts;raf=requestAnimationFrame(render);};raf=requestAnimationFrame(render);return()=>cancelAnimationFrame(raf);},[]);
  function updatePractice(now:number){
   const trip=travelRef.current;
