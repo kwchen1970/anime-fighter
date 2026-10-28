@@ -8,7 +8,22 @@ export function drawScenery(ctx:CanvasRenderingContext2D,images:Record<string,HT
  const draw=(index:number,alpha:number)=>{const image=images[DISTRICTS[index].image];if(!image||alpha<=0)return;const offset=Math.sin((cameraX/2400)*Math.PI*.5)*55;ctx.save();ctx.globalAlpha=alpha*cityAlpha;ctx.drawImage(backdrop(image),-85-offset,rise*scale*.38,W+170,H);ctx.restore();};
  draw(region.first,1);if(region.blend>0)draw(region.second,region.blend);
  const cloud=images['/assets/stages/anime-cloud.png'];
- if(cloud&&rise>100){ctx.save();ctx.globalAlpha=Math.min(.6,(rise-100)/900);for(let i=0;i<5;i++){const x=((i*389-cameraX*.025+now*.003)%(W+650)+W+650)%(W+650)-260;const y=((i*151+rise*.08)%(H+280))-140;ctx.drawImage(cloudSprite(cloud),x,y,380+(i%2)*100,135+(i%2)*35);}ctx.restore();}
+ // Clouds occupy fixed heights in the world, so zooming out cannot bring
+ // screen-space clouds down over the street or a grounded fighter.
+ if(cloud){
+  const skyBottom=Math.min(H,500+(elevation-650)*scale);
+  if(skyBottom>0){ctx.save();ctx.beginPath();ctx.rect(0,0,W,skyBottom);ctx.clip();ctx.globalAlpha=.5;
+   const bottomAltitude=Math.max(850,elevation-(H-500)/scale-250);
+   const topAltitude=elevation+500/scale+250;
+   for(let band=Math.max(0,Math.floor((bottomAltitude-850)/480));band<=Math.ceil((topAltitude-850)/480);band++){
+    const altitude=850+band*480;
+    const width=(640+(band%2)*140)*scale,height=width*230/640;
+    const x=((band*389-cameraX*.08*scale+now*.008*scale)%(W+width)+W+width)%(W+width)-width;
+    const y=500+(elevation-altitude)*scale;
+    ctx.drawImage(cloudSprite(cloud),x,y-height/2,width,height);
+   }ctx.restore();}
+ }
+
 
 }
 export function drawPetals(ctx:CanvasRenderingContext2D,now:number,cameraX:number,W=1200,H=660){

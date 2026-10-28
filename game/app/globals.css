@@ -228,3 +228,14 @@ header>button.sound{margin-left:auto}
 .paused-arena .victory-confetti,.paused-arena .victory-confetti i,.paused-arena .low-health-warning{animation-play-state:paused}.fullscreen-toggle:disabled{opacity:.5;cursor:default}
 
 .control-strip kbd{flex-shrink:0;white-space:nowrap;line-height:1}.control-strip kbd.key-space{width:auto;min-width:48px;padding:0 8px}
+
+/* Preserve the PNG edges without the soft portrait shadow. */
+.home-screen .roster-portrait img{image-rendering:pixelated;filter:none}
+/* In landscape, display:contents bypasses the controller's own padding.
+   Reserve the notch clearance on the containing grid instead. */
+@media(pointer:coarse) and (orientation:landscape){
+ .play-screen .game-shell,.play-screen .game-shell:fullscreen{
+  padding-left:max(36px,calc(env(safe-area-inset-left,0px) + 16px));
+  padding-right:max(36px,calc(env(safe-area-inset-right,0px) + 16px));
+ }
+}
