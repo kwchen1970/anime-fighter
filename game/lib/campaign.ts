@@ -49,6 +49,9 @@ export function updateBot(g:Match,now:number,clock:BotClock) {
   const target=clock.waypoint?.x??you.x;
   bot.input.move=Math.abs(target-bot.x)>20?Math.sign(target-bot.x):0;return;
  }
+ // The human keeps their chosen facing. The AI must aim its attacks at the
+ // opponent even after retreating or when the opponent runs past its back.
+ if(!seekingCat&&!bot.knocked&&bot.stun<=now&&distance<280&&Math.abs(ty-by)<140&&direction)bot.face=direction;
  if(bot.stun>now||bot.until>now)return;
  if(!seekingCat&&(bot.guardUntil??0)>now&&distance<235&&Math.abs(ty-by)<100){bot.input.move=direction;bot.input.kick++;clock.attack=now;return;}
  // Finish the landing before choosing another step; never plan from a ledge lip.

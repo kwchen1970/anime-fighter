@@ -262,10 +262,9 @@ header>button.sound{margin-left:auto}
 /* Portrait thumb controls sit closer together with a centered, bounded row. */
 @media(pointer:coarse) and (orientation:portrait){
  .play-screen .touch-controls.controller-layout{
-  width:100%;max-width:360px;margin:8px auto 0;
-  justify-content:space-evenly;gap:12px;
-  padding-left:max(24px,env(safe-area-inset-left,0px));
-  padding-right:max(24px,env(safe-area-inset-right,0px));
+  display:grid;grid-template-columns:92px 132px;
+  width:min(100%,272px);max-width:272px;margin:8px auto 0;
+  justify-content:center;align-items:center;gap:24px;padding:5px 12px max(8px,env(safe-area-inset-bottom));
  }
  .play-screen .touch-controls.controller-layout>.joystick-section{flex-shrink:0}
 }

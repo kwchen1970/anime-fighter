@@ -57,6 +57,7 @@ function tick(g: Match, now: number, dt: number) {
     if(move)f.face=move;
     if((input.sweep??0)>f.sweep||input.kick>f.kick||input.punch>f.punch){
       const sweep=(input.sweep??0)>f.sweep,kick=!sweep&&input.kick>f.kick;
+      if(g.botSlot===i)f.face=Math.sign(other.x-f.x)||f.face;
       f.punch=input.punch;f.kick=input.kick;f.sweep=input.sweep??0;
       f.punchRunning=!sweep&&!kick&&!!move;f.punchMove=!sweep&&!kick?move:0;if(f.punchMove)f.face=move;f.action=sweep?'sweep':kick?'kick':'punch';f.started=now;f.until=now+(sweep?1000:kick?940:780);f.hit=false;
     }else{if(move)f.face=move;const action=move?'run':'fight';if(f.action!==action)f.started=now;f.action=action;f.x=f.x+move*SPEED*(f.speed??1)*dt;}
