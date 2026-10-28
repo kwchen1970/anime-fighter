@@ -3,9 +3,15 @@ import {RoomSession,RoomError,type RoomData} from '../lib/room-session';
 type Attachment={slot?:number;code:string;window?:number;count?:number};
 export class GameRoom extends DurableObject<Record<string,unknown>>{
  private room=new RoomSession();private timer:ReturnType<typeof setInterval>|null=null;private savedAt=0;private savedMatch:object|null=null;
- constructor(ctx:DurableObjectState,env:Record<string,unknown>){super(ctx,env);ctx.blockConcurrencyWhile(async()=>{this.room=new RoomSession((await ctx.storage.get<RoomData>('room'))??null);if(this.room.data)this.room.tick(Date.now(),[false,false]);this.refresh();});}
+ constructor(ctx:DurableObjectState,env:Record<string,unknown>){super(ctx,env);ctx.blockConcurrencyWhile(async()=>{this.room=new RoomSession((await ctx.storage.get<RoomData>('room'))??null);if(this.room.data){if(this.room.data.expires>Date.now())this.room.tick(Date.now(),[false,false]);this.updateExpiry();}this.refresh();});}
  private connections(){return this.ctx.getWebSockets().filter(ws=>{try{return ws.deserializeAttachment()?.slot!==undefined;}catch{return false;}});}
  private connected(){const slots=this.connections().map(ws=>(ws.deserializeAttachment() as Attachment).slot);return [slots.includes(0),slots.includes(1)];}
+ private updateExpiry(){
+  if(!this.room.data)return;
+  if(this.room.presence(Date.now(),this.connected()))this.save();
+  if(this.connected().some(Boolean))this.ctx.waitUntil(this.ctx.storage.deleteAlarm());
+  else this.ctx.waitUntil(this.ctx.storage.setAlarm(this.room.data.expires));
+ }
  private save(){if(!this.room.data)return;this.savedAt=Date.now();this.savedMatch=this.room.data.match;this.ctx.waitUntil(this.ctx.storage.put('room',this.room.data));}
  private refresh(){const r=this.room.data;if(!r)return;const active=this.connected().every(Boolean)&&r.match.winner===null&&r.match.pausedAt===undefined;
   if(active&&!this.timer)this.timer=setInterval(()=>{try{this.room.tick(Date.now(),this.connected());this.broadcast();if(Date.now()-this.savedAt>10000||this.savedMatch!==this.room.data?.match)this.save();if(this.room.data?.match.winner!==null){this.save();this.refresh();}}catch{this.stop();}},1000/30);
@@ -33,11 +39,18 @@ export class GameRoom extends DurableObject<Record<string,unknown>>{
   const b=JSON.parse(message);
   if(a.slot===undefined){if(b.op!=='auth')throw new RoomError('Sign in to the room first.',403);a.slot=this.room.slot(String(b.token??''),now);
    for(const old of this.connections())if(old!==ws&&(old.deserializeAttachment() as Attachment).slot===a.slot){old.serializeAttachment({code:a.code});old.close(1000,'Reconnected in another tab');}
-   ws.serializeAttachment(a);this.room.tick(now,[false,false]);this.refresh();this.broadcast();return;
+   ws.serializeAttachment(a);this.updateExpiry();this.room.tick(now,[false,false]);this.refresh();this.broadcast();return;
   }
   ws.serializeAttachment(a);if(b.op==='input')this.room.input(a.slot,b.input??{},now);else if(b.op!=='heartbeat')throw new RoomError('Unknown input.');
  }catch(e){try{ws.send(JSON.stringify({error:e instanceof Error?e.message:'Invalid input.'}));ws.close(1008,'Invalid session');}catch{}}}
- webSocketClose(ws:WebSocket){ws.serializeAttachment({code:''});this.room.tick(Date.now(),[false,false]);this.save();this.refresh();this.broadcast();}
+ webSocketClose(ws:WebSocket){ws.serializeAttachment({code:''});if(!this.room.data)return;this.updateExpiry();this.room.tick(Date.now(),[false,false]);this.save();this.refresh();this.broadcast();}
  webSocketError(ws:WebSocket){this.webSocketClose(ws);}
- async alarm(){this.stop();for(const ws of this.ctx.getWebSockets())ws.close(1000,'Room expired');await this.ctx.storage.deleteAll();this.room=new RoomSession();}
+ async alarm(){
+  if(!this.room.data)return;
+  if(this.connected().some(Boolean)){this.updateExpiry();return;}
+  if(this.room.data.expires>Date.now()){await this.ctx.storage.setAlarm(this.room.data.expires);return;}
+  this.stop();this.room=new RoomSession();
+  for(const ws of this.ctx.getWebSockets())ws.close(1000,'Room expired');
+  await this.ctx.storage.deleteAll();
+ }
 }

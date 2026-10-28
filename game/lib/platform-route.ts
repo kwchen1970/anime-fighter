@@ -7,13 +7,19 @@ export function nextPlatformStep(bot:Fighter,target:Fighter){
  const ground:Platform={id:'ground',x:left,width:right-left,y:0};
  const list=[ground,...platformsIn(left,right,Math.max(0,Math.min(by,ty)-750),Math.max(by,ty)+400)];
  const surface=(f:Fighter)=>list.find(p=>Math.abs(p.y-(f.y??0))<2&&f.x>=p.x&&f.x<=p.x+p.width);
- const start=surface(bot),goal=surface(target);if(!start||!goal||start.id===goal.id)return null;
+ const start=surface(bot);
+ // A running/jumping opponent rarely sits exactly on a surface. Route toward
+ // the ledge below their projected landing point rather than abandoning the
+ // route for a local jump heuristic every time they leave the ground.
+ const projectedX=target.x+Math.sign(target.input.move)*180;
+ const goal=surface(target)??list.filter(p=>p.y<=ty+2&&projectedX>=p.x&&projectedX<=p.x+p.width).sort((a,b)=>b.y-a.y)[0];if(!start||!goal||start.id===goal.id)return null;
  // Plan a complete route to the opponent's surface. A local height heuristic
  // can repeatedly select the same two ledges without ever reaching the goal.
+ const candidates=[...list].sort((a,b)=>(Math.abs(a.x+a.width/2-target.x)+Math.abs(a.y-ty)*2)-(Math.abs(b.x+b.width/2-target.x)+Math.abs(b.y-ty)*2));
  const queue=[start],previous=new Map<string,Platform|null>([[start.id,null]]);
  for(let i=0;i<queue.length&&!previous.has(goal.id);i++){
   const from=queue[i];
-  for(const to of list){
+  for(const to of candidates){
    if(previous.has(to.id)||to.y-from.y>JUMP_HEIGHT-28||from.y-to.y>750)continue;
    const gap=Math.max(0,to.x+120-(from.x+from.width-40),from.x+40-(to.x+to.width-120));
    if(gap>SPEED*landingTime(to.y-from.y)*.85-20)continue;

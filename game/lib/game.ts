@@ -54,7 +54,7 @@ function tick(g: Match, now: number, dt: number) {
       }else f.punchMove=0;
       continue;
     }
-    if(f.dropLandedAt===undefined||now-f.dropLandedAt>=100)f.face=other.x>=f.x?1:-1;
+    if(move)f.face=move;
     if((input.sweep??0)>f.sweep||input.kick>f.kick||input.punch>f.punch){
       const sweep=(input.sweep??0)>f.sweep,kick=!sweep&&input.kick>f.kick;
       f.punch=input.punch;f.kick=input.kick;f.sweep=input.sweep??0;

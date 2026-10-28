@@ -43,12 +43,16 @@ export function updateBot(g:Match,now:number,clock:BotClock) {
  // Air steering has its own short cadence, so the bot can brake above a ledge.
  if(bot.jumpLaunchAt&&bot.jumpLaunchAt>now)return;
  if(bot.airborne){
+  // Drop a stale flight target after a missed landing. Do not steer back
+  // toward a platform above us that we can no longer reach this jump.
+  if(clock.waypoint&&((now-clock.waypoint.at)>1800||((bot.vy??0)<0&&by<clock.waypoint.y-35)))clock.waypoint=undefined;
   const target=clock.waypoint?.x??you.x;
   bot.input.move=Math.abs(target-bot.x)>20?Math.sign(target-bot.x):0;return;
  }
  if(bot.stun>now||bot.until>now)return;
  if(!seekingCat&&(bot.guardUntil??0)>now&&distance<235&&Math.abs(ty-by)<100){bot.input.move=direction;bot.input.kick++;clock.attack=now;return;}
  // Finish the landing before choosing another step; never plan from a ledge lip.
+ if(clock.waypoint&&now-clock.waypoint.at>2200)clock.waypoint=undefined;
  if(clock.waypoint&&Math.abs(by-clock.waypoint.y)<2){
   const delta=clock.waypoint.x-bot.x;
   if(Math.abs(delta)>28){bot.input.move=Math.sign(delta);return;}
@@ -65,7 +69,7 @@ export function updateBot(g:Match,now:number,clock:BotClock) {
  if(seekingCat&&ty>by+45&&ty-by<JUMP_HEIGHT-25&&distance<SPEED*landingTime(ty-by)*.78){
   clock.waypoint={x:you.x,y:-1,at:now};bot.input.move=distance>20?direction:0;bot.input.jump=(bot.input.jump??0)+1;return;
  }
- if(!seekingCat&&Math.abs(ty-by)>80){
+ if(!seekingCat&&(Math.abs(ty-by)>80||distance>300)){
   const step=nextPlatformStep(bot,opponent);
   if(step){
    if(step.y<by-2){clock.waypoint={x:step.x,y:step.y,at:now};bot.input.move=Math.sign(step.dropX-bot.x);return;}
